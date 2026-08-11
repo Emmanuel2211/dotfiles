@@ -9,6 +9,18 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
+    "blink.compat": {
+      "rev": "1454f14a8d855a578ceeba77c62538fa1459a67c",
+      "src": "https://github.com/saghen/blink.compat"
+    },
+    "blink.lib": {
+      "rev": "c8fdc12c8a2fab6cf786dd7141a283f8079f902b",
+      "src": "https://github.com/saghen/blink.lib"
+    },
+    "cmp-vimtex": {
+      "rev": "c09ca05bfa0641754516f13294d73d3799a02fc8",
+      "src": "https://github.com/micangl/cmp-vimtex"
+    },
     "efmls-configs-nvim": {
       "rev": "2f5dc31042cc76fc3d5a859842a8416085c4d41f",
       "src": "https://github.com/creativenull/efmls-configs-nvim"
@@ -44,6 +56,10 @@
     "vim-tmux-navigator": {
       "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
       "src": "https://github.com/christoomey/vim-tmux-navigator"
+    },
+    "vimtex": {
+      "rev": "a5568d902cc20a76bb8ef70743f0157ec2e79ded",
+      "src": "https://github.com/lervag/vimtex"
     }
   }
 }
