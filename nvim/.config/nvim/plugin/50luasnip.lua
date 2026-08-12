@@ -47,12 +47,20 @@ ls.setup({
 	store_selection_keys = "<Tab>",
 })
 
-vim.keymap.set({ "i" }, "<C-k>", function()
+vim.keymap.set({ "i" }, "<C-k>", function() -- Does nothing!!!! ???
 	ls.expand()
 end, { silent = true, desc = "expand autocomplete" })
-vim.keymap.set({ "i", "s" }, "<C-j>", function()
-	ls.jump(1)
-end, { silent = true, desc = "next autocomplete" })
-vim.keymap.set({ "i", "s" }, "<C-L>", function()
+
+-- vim.keymap.set({ "i", "s" }, "<Tab>", function()
+-- 	ls.jump(1)
+-- end, { silent = true, desc = "next autocomplete" })
+
+vim.keymap.set({ "i", "s" }, "<S-Tab>", function() -- the fuck what is this for?
 	ls.jump(-1)
 end, { silent = true, desc = "previous autocomplete" })
+
+-- Keymaps for LuaSnip chioce nodes snippets
+vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
+vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})

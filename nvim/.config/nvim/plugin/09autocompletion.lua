@@ -2,16 +2,25 @@ vim.pack.add({
 	"https://github.com/micangl/cmp-vimtex",
 	"https://github.com/saghen/blink.lib",
 	"https://github.com/saghen/blink.compat",
+	{
+		src = "https://github.com/saghen/blink.cmp",
+		version = vim.version.range("1.*"),
+	},
 })
 
-local cmp = require("blink.cmp")
 require("blink.compat").setup({})
-cmp.setup({
+
+require("blink.cmp").setup({
 	keymap = {
-		preset = "default",
+		preset = "none",
+		["<C-Space>"] = { "show", "hide" },
+		["<CR>"] = { "accept", "fallback" },
+		["<C-n>"] = { "select_next", "fallback" },
+		["<C-p>"] = { "select_prev", "fallback" },
 		["<Tab>"] = { "snippet_forward", "fallback" },
 		["<S-Tab>"] = { "snippet_backward", "fallback" },
 	},
+	appearance = { nerd_font_variant = "mono" },
 	snippets = {
 		preset = "luasnip",
 		expand = function(snippet)
@@ -44,5 +53,9 @@ cmp.setup({
 			auto_show = true,
 			window = { border = "single" },
 		},
+	},
+	fuzzy = {
+		implementation = "prefer_rust",
+		prebuilt_binaries = { download = true },
 	},
 })

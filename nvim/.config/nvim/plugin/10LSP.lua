@@ -2,10 +2,6 @@ vim.pack.add({
 	"https://www.github.com/neovim/nvim-lspconfig",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/creativenull/efmls-configs-nvim",
-	{
-		src = "https://github.com/saghen/blink.cmp",
-		version = vim.version.range("1.*"),
-	},
 })
 
 require("mason").setup({})
@@ -124,36 +120,36 @@ end
 
 vim.api.nvim_create_autocmd("LspAttach", { group = augroup, callback = lsp_on_attach })
 
--- Autocompletion
-require("blink.cmp").setup({
-	keymap = {
-		preset = "none",
-		["<C-Space>"] = { "show", "hide" },
-		["<CR>"] = { "accept", "fallback" },
-		["<C-n>"] = { "select_next", "fallback" },
-		["<C-p>"] = { "select_prev", "fallback" },
-		["<Tab>"] = { "snippet_forward", "fallback" },
-		["<S-Tab>"] = { "snippet_backward", "fallback" },
-	},
-	appearance = { nerd_font_variant = "mono" },
-	completion = {
-		menu = {
-			auto_show = function()
-				return vim.bo.filetype ~= "markdown"
-			end,
-		},
-	},
-	sources = { default = { "lsp", "path", "buffer", "snippets" } },
-	snippets = {
-		expand = function(snippet)
-			require("luasnip").lsp_expand(snippet)
-		end,
-	},
-	fuzzy = {
-		implementation = "prefer_rust",
-		prebuilt_binaries = { download = true },
-	},
-})
+-- -- Autocompletion
+-- require("blink.cmp").setup({
+-- 	keymap = {
+-- 		preset = "none",
+-- 		["<C-Space>"] = { "show", "hide" },
+-- 		["<CR>"] = { "accept", "fallback" },
+-- 		["<C-n>"] = { "select_next", "fallback" },
+-- 		["<C-p>"] = { "select_prev", "fallback" },
+-- 		["<Tab>"] = { "snippet_forward", "fallback" },
+-- 		["<S-Tab>"] = { "snippet_backward", "fallback" },
+-- 	},
+-- 	appearance = { nerd_font_variant = "mono" },
+-- 	completion = {
+-- 		menu = {
+-- 			auto_show = function()
+-- 				return vim.bo.filetype ~= "markdown"
+-- 			end,
+-- 		},
+-- 	},
+-- 	sources = { default = { "lsp", "path", "buffer", "snippets" } },
+-- 	snippets = {
+-- 		expand = function(snippet)
+-- 			require("luasnip").lsp_expand(snippet)
+-- 		end,
+-- 	},
+-- 	fuzzy = {
+-- 		implementation = "prefer_rust",
+-- 		prebuilt_binaries = { download = true },
+-- 	},
+-- })
 
 vim.lsp.config["*"] = {
 	capabilities = require("blink.cmp").get_lsp_capabilities(),
