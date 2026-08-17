@@ -3,6 +3,36 @@ local function math()
 	return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
 end
 
+-- test whether the parent snippet has content from a visual selection. If yes, put into a text  node, if no then start an insert node
+local visualSelectionOrInsert = function(args, parent)
+	if #parent.snippet.env.LS_SELECT_RAW > 0 then
+		return sn(nil, t(parent.snippet.env.LS_SELECT_RAW))
+	else -- If LS_SELECT_RAW is empty, return a blank insert node
+		return sn(nil, i(1))
+	end
+end
+
+-- Function for NxM-sized matrices with diferent delimiters
+local generate_matrix = function(args, snip)
+	local rows = tonumber(snip.captures[2])
+	local cols = tonumber(snip.captures[3])
+	local nodes = {}
+	local ins_indx = 1
+	for j = 1, rows do
+		table.insert(nodes, r(ins_indx, tostring(j) .. "x1", i(1)))
+		ins_indx = ins_indx + 1
+		for k = 2, cols do
+			table.insert(nodes, t(" & "))
+			table.insert(nodes, r(ins_indx, tostring(j) .. "x" .. tostring(k), i(1)))
+			ins_indx = ins_indx + 1
+		end
+		table.insert(nodes, t({ "\\\\", "" }))
+	end
+	-- fix last node.
+	nodes[#nodes] = t("\\\\")
+	return sn(nil, nodes)
+end
+
 -- Variable declarations
 local ls = require("luasnip")
 local s = ls.snippet
@@ -222,19 +252,74 @@ return {
 		t("}"),
 	}, { condition = math }),
 
-	-- == Calculo ==
+	-- == Linear Algebra ==
+	-- matrix dynamic node
+	s(
+		{
+			trig = "([%sbBpvV])mat(%d+)x(%d+)",
+			snippetType = "autosnippet",
+			regTrig = true,
+			wordTrig = false,
+			dscr = "[bBpvV]matrix of A x B size",
+		},
+		fmta(
+			[[
+    \begin{<>}
+    <>
+    \end{<>}]],
+			{
+				f(function(_, snip)
+					if snip.captures[1] == " " then
+						return "matrix"
+					else
+						return snip.captures[1] .. "matrix"
+					end
+				end),
+				d(1, generate_matrix),
+				f(function(_, snip)
+					return snip.captures[1] .. "matrix"
+				end),
+			}
+		),
+		{ show_condition = math }
+	),
+	s(
+		{
+			trig = "cases",
+			snippetType = "autosnippet",
+			desc = "Cases for functions or multicase equations",
+			wordTrig = false,
+		},
+		fmta(
+			[[
+    \begin{cases}
+      <>
+    \end{cases}
+    ]],
+			{ i(1) }
+		),
+		{ condition = math }
+	),
+
+	-- == Calculus ==
 	s(
 		{
 			trig = ";I",
-			desc = "integral with infinite or inserted limits",
+			snippetType = "autosnippet",
+			desc = "Integrals",
 			wordTrig = false,
 		},
 		c(1, {
-			t("\\int_{-\\infty}^\\infty"),
-			sn(nil, { t("int_{"), i(1, "a"), t("}^{"), i(2, "b"), t("}") }),
+			sn(nil, { t("\\int_{-\\infty}^\\infty"), i(1) }),
+			sn(nil, { t("\\int_{"), i(1, "a"), t("}^{"), i(2, "b"), t("}") }),
 		}),
 		{ condition = math }
 	),
+	-- s({
+	-- 	trig = ";D",
+	-- 	desc = "Derivates, derivadas",
+	-- 	wordTrig = false,
+	-- }),
 
 	-- == Acentos ==
 	s(
@@ -275,14 +360,12 @@ return {
 	-- To bold text: First select, Tab, textbf
 	-- Para cuando tengo algo ya escrito y quiero hacerlo en negritas
 	s(
-		"textbf",
-		f(function(args, snip)
-			local res, env = {}, snip.env
-			for _, ele in ipairs(env.LS_SELECT_RAW) do
-				table.insert(res, "\\textbf{" .. ele .. "}")
-			end
-			return res
-		end, {})
+		{ trig = "textbf", dscr = "Textbf, either in insert mode or selecting text" },
+		fmta("\\textbf{<>}", { d(1, visualSelectionOrInsert) })
+	),
+	s(
+		{ trig = "emph", dscr = "the emph command, either in insert mode or wrapping a visual selection" },
+		fmta("\\emph{<>}", { d(1, visualSelectionOrInsert) })
 	),
 
 	-- == Environments ==

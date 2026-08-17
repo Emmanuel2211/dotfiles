@@ -1,0 +1,4 @@
+-- needs plenary, which is no longer mantained
+-- vim.pack.add({
+-- 	"https://github.com/folke/todo-comments.nvim",
+-- })

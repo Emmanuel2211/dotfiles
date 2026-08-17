@@ -3,13 +3,15 @@ vim.pack.add({
 })
 
 require("fzf-lua").setup({})
+-- vim.ui.select for choise nodes (luasnip):
+require("fzf-lua").register_ui_select()
 
 vim.keymap.set("n", "<leader>ff", function()
 	require("fzf-lua").files()
 end, { desc = "FZF Files" })
 vim.keymap.set("n", "<leader>fn", function()
-  require("fzf-lua").files({ cwd = "~/.config/nvim"})
-end, {desc = "FZF nvim configs"})
+	require("fzf-lua").files({ cwd = "~/.config/nvim" })
+end, { desc = "FZF nvim configs" })
 vim.keymap.set("n", "<leader>fg", function()
 	require("fzf-lua").live_grep()
 end, { desc = "FZF Live Grep" })

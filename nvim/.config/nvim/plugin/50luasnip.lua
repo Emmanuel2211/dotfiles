@@ -41,20 +41,11 @@ require("luasnip.loaders.from_lua").lazy_load({ paths = { snippet_path } })
 local ls = require("luasnip")
 local types = require("luasnip.util.types")
 
--- Visualizing nodes while typing with ●
+-- luasnip settings
 ls.setup({
 	update_events = { "TextChanged", "TextChangedI" },
 	enable_autosnippets = true,
 	store_selection_keys = "<Tab>",
-	ext_opts = {
-		[types.choiceNode] = {
-			active = { virt_text = { { "●", "NotifyWarnTitle" } } },
-		},
-		[types.insertNode] = {
-			active = { virt_text = { { "●", "NotifyInfoTitle" } } },
-			passive = { virt_text = { { "●", "NotifyHintTitle" } } },
-		},
-	},
 })
 
 vim.keymap.set({ "i" }, "<C-k>", function() -- Does nothing!!!! ???
@@ -70,14 +61,16 @@ vim.keymap.set({ "i", "s" }, "<S-Tab>", function() -- the fuck what is this for?
 end, { silent = true, desc = "previous autocomplete" })
 
 -- Keymaps for LuaSnip chioce nodes snippets
-vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
-vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
-vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
-vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
+vim.keymap.set({ "i", "s", "n" }, "<C-e>", function()
+	if require("luasnip").choice_active() then
+		require("luasnip").change_choice(1)
+	end
+end, { silent = true })
 -- Display dialogue box for chioces
+-- TODO: change C-z for other cuz that keybind suspends bash current program
 vim.keymap.set(
 	{ "i", "s" },
-	"<C-z>",
+	"<C-b>",
 	"<cmd>lua require('luasnip.extras.select_choice')()<cr>",
 	{ noremap = true, desc = "ui select for choice node" }
 )
