@@ -1,0 +1,93 @@
+{
+  "exclusive": true,
+  "reload_style_on_change": true,
+  "position": "top",
+  "margin-top": 0,
+  "margin-left": 5,
+  "margin-right": 5,
+  "margin-bottom": 0,
+  "modules-left": [
+    "sway/workspaces",
+    "custom/separator",
+    "idle_inhibitor",
+    "power-profiles-daemon",
+    "backlight"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "tray",
+    "network",
+    "cpu",
+    "memory",
+    "pulseaudio#input",
+    "pulseaudio#output"
+  ],
+
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{icon}",
+    "format-icons": {
+      "1": "一",
+      "2": "二",
+      "3": "三",
+      "4": "四",
+      "5": "五",
+      "6": "六",
+      "7": "七",
+      "8": "八",
+      "9": "九",
+      "0": "〇"
+    }
+  },
+
+  "custom/separator": {
+    "format": "|", 
+    "tooltip": false
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "<span color='#f38ba8'>cpu</span> {usage:02}%",
+    "on-click": "ghostty -e btop"
+  },
+  "memory": {
+    "interval": 5,
+    "format": "<span color='#f38ba8'>mem</span> {percentage:02}%",
+    "tooltip-format": "Used {percentage}%\n{used:0.1f}GB/{total:0.1f}GB",
+    "on-click": "ghostty -e btop"
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon}",
+    "format-icons": ["󰃜", "󰃝", "󰃞", "󰃟", "󰃠"]
+  },
+  "clock": {
+    "format": "<span color='#cba6f7'>{0:%H:%M}</span>",
+    "format-alt": "{:L%d %B %Y}",
+    "tooltip-format": "<span>{calendar}</span>"
+  },
+  "network": {
+    "format": "<span color='#89b4fa'>net</span> on",
+    "format-wifi": "<span color='#89b4fa'>wifi</span> {essid}",
+    "format-ethernet": "<span color='#89b4fa'>eth</span> on",
+    "format-disconnected": "<span color='#f38ba8'>net</span> off",
+    "on-click": "ghostty -e nmtui"
+  },
+  "pulseaudio#input": {
+    "format": "<span color='#a6e3a1'>mic</span> {source_volume}%",
+    "format-muted": "<span color='#f38ba8'>mic</span> muted",
+    "on-click": "pavucontrol"
+  },
+  "pulseaudio#output": {
+    "format": "<span color='#a6e3a1'>vol</span> {volume}%",
+    "format-muted": "<span color='#f38ba8'>vol</span> muted",
+    "on-click": "pavucontrol"
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 5
+  }
+}

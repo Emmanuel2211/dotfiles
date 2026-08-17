@@ -1,0 +1,76 @@
+@define-color bg #1e1e2e; /* Catppuccin Mocha Base */
+@define-color fg #cdd6f4; /* Catppuccin Mocha Text */
+@define-color red #f38ba8; /* Catppuccin Mocha Red */
+@define-color lavender #b4befe;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  border-radius: 0px;
+  margin: 0;
+}
+
+window#waybar {
+  background-color: transparent;
+}
+
+#waybar > box {
+  margin: 5px 0px 10px 0px;
+  padding: 0px 10px;
+  min-height: 30px;
+  border-radius: 5px;
+  background-color: @bg;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  border: 1px solid alpha(@lavender, 0.3);
+}
+
+#workspaces button {
+  padding: 0 6px;
+  color: @fg;
+  opacity: 0.75;
+  border-bottom: 2px solid transparent;
+  transition: 0.2s ease-in-out;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+  opacity: 1;
+  color: @lavender;
+  border-bottom: 2px solid @lavender;
+}
+
+#tray,
+#idle_inhibitor,
+#memory,
+#cpu,
+#clock,
+#battery,
+#backlight,
+#network,
+#bluetooth,
+#pulseaudio {
+  color: @fg;
+  padding: 0px 6px;
+  margin: 0px 2px;
+}
+
+#battery.warning {
+  color: #f9e2af;
+}
+#battery.critical {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    color: @bg;
+    background-color: @red;
+    border-radius: 4px;
+  }
+}
