@@ -70,7 +70,7 @@ local function lsp_on_attach(ev)
 	end, opts)
 
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+	vim.keymap.set("n", "<leader>nr", vim.lsp.buf.rename, opts)
 
 	vim.keymap.set("n", "<leader>D", function()
 		vim.diagnostic.open_float({ scope = "line" })

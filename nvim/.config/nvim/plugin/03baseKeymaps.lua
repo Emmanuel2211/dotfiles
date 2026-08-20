@@ -60,3 +60,28 @@ end, { desc = "Copy full file path" })
 vim.keymap.set("n", "<leader>d", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
+
+-- == Native Code Runner ==
+--
+-- vim.keymap.set('n', '<leader>r', function()
+--   -- Guarda el archivo automáticamente antes de correrlo
+--   vim.cmd('silent! write')
+--
+--   --  Detecta qué lenguaje estás usando
+--   local filetype = vim.bo.filetype
+--   local filename = vim.fn.expand('%')
+--
+--   -- Abre un panel abajo (botright split) y lanza la terminal
+--   if filetype == 'python' then
+--     vim.cmd('botright split | terminal python3 -u ' .. filename)
+--   elseif filetype == 'r' then
+--     vim.cmd('botright split | terminal Rscript ' .. filename)
+--   elseif filetype == 'julia' then
+--     vim.cmd('botright split | terminal julia ' .. filename)
+--   else
+--     print("⚠️ Lenguaje no configurado para ejecutar: " .. filetype)
+--   end
+--
+--   -- Inicia en modo normal para que puedas copiar el texto (opcional)
+--   vim.cmd('stopinsert')
+-- end, { desc = "Run Code (Nativo)" })

@@ -81,3 +81,4 @@ vim.opt.splitright = true -- vertical split go right
 
 vim.opt.wildmode = "longest:full,full" -- complete logest common match, full completion list, cycle through with Tab
 vim.opt.diffopt:append("linematch:60") -- improve diff display (for highlighting git changes)
+

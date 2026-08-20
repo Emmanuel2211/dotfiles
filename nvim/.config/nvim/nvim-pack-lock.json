@@ -21,6 +21,10 @@
       "rev": "c09ca05bfa0641754516f13294d73d3799a02fc8",
       "src": "https://github.com/micangl/cmp-vimtex"
     },
+    "code_runner.nvim": {
+      "rev": "97e6c71f3d96baac078ceb516da83258996c1517",
+      "src": "https://github.com/CRAG666/code_runner.nvim"
+    },
     "efmls-configs-nvim": {
       "rev": "2f5dc31042cc76fc3d5a859842a8416085c4d41f",
       "src": "https://github.com/creativenull/efmls-configs-nvim"
