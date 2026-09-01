@@ -39,7 +39,12 @@ require("blink.cmp").setup({
 	sources = {
 		default = { "lsp", "path", "cmdline", "snippets", "buffer", "vimtex" },
 		providers = {
-			snippets = { score_offset = 10 },
+			snippets = {
+				score_offset = 10,
+				opts = {
+					use_show_condition = false,
+				},
+			},
 			vimtex = {
 				name = "vimtex",
 				module = "blink.compat.source",

@@ -32,6 +32,13 @@ local markdown_snippets = {
 		),
 		{ condition = in_md_math }
 	),
+	s({
+		trig = "hello",
+		snippetType = "autosnippet",
+		wordTrig = false,
+	}, {
+		t("hello world"),
+	}, { condition = in_md_math }),
 }
 
 vim.list_extend(markdown_snippets, tex_math_snippets)

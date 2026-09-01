@@ -2,30 +2,32 @@
 local M = {}
 
 -- VimTex & Markdown "math zone" detection
-M.math = function()
-	-- Solo usa VimTeX. Si no estás en un archivo .tex o VimTeX no está activo,
-	-- esto simplemente devolverá false o fallará de forma segura.
-	return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
-end
+M.in_math = function()
+	if vim.bo.filetype == "markdown" then
+		-- Get current line and cursor column
+		local line = vim.api.nvim_get_current_line()
+		local col = vim.api.nvim_win_get_cursor(0)[2]
 
--- Función exclusiva para detectar matemáticas en Markdown
-M.in_markdown_math = function()
-	-- pcall evita que Neovim lance un error si Treesitter aún no carga
-	local ok, node = pcall(vim.treesitter.get_node)
-	if not ok or not node then
-		return false
-	end
-
-	while node do
-		local type = node:type()
-		-- 'latex_block' y 'latex_math' vienen del parser de markdown_inline
-		-- 'math_environment' y 'inline_formula' vienen del parser de latex (inyectado)
-		if type == "latex_block" or type == "latex_math" or type == "math_environment" or type == "inline_formula" then
+		-- Simple, instant check: count dollar signs on the current line or context
+		-- Or check if we are between $$ pairs
+		local _, count = line:gsub("%$%", "")
+		if count >= 2 then
 			return true
 		end
-		node = node:parent()
+
+		-- Multi-line block check: look upwards for $$
+		local row = vim.api.nvim_win_get_cursor(0)[1]
+		local lines = vim.api.nvim_buf_get_lines(0, 0, row, false)
+		local block_count = 0
+		for _, l in ipairs(lines) do
+			if l:match("^%s*%$%$") then
+				block_count = block_count + 1
+			end
+		end
+		return (block_count % 2 == 1)
 	end
-	return false
+
+	return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
 end
 
 -- test whether the parent snippet has content from a visual selection.

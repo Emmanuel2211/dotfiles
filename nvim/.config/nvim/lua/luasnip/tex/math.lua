@@ -3,7 +3,7 @@ local loc = require("luasnip.locals")
 local s, t, i, f, d, c, sn, l, rep = loc.s, loc.t, loc.i, loc.f, loc.d, loc.c, loc.sn, loc.l, loc.rep
 local postfix = loc.postfix
 local fmta = loc.fmta
-local math = loc.math
+local in_math = loc.in_math
 local gen_matrix = loc.generate_matrix
 
 -- Math snippets!!
@@ -28,17 +28,61 @@ return {
 	),
 
 	-- == Letras Griegas ==
-	s({ trig = "a;", snippetType = "autosnippet", desc = "alpha", wordTrig = false }, { t("\\alpha") }),
-	s({ trig = "b;", snippetType = "autosnippet", desc = "beta", wordTrig = false }, { t("\\beta") }),
-	s({ trig = "g;", snippetType = "autosnippet", desc = "gamma", wordTrig = false }, { t("\\gamma") }),
-	s({ trig = "G;", snippetType = "autosnippet", desc = "Gamma", wordTrig = false }, { t("\\Gamma") }),
-	s({ trig = "d;", snippetType = "autosnippet", desc = "delta", wordTrig = false }, { t("\\delta") }),
-	s({ trig = "D;", snippetType = "autosnippet", desc = "Delta", wordTrig = false }, { t("\\Delta") }),
-	s({ trig = "E;", snippetType = "autosnippet", desc = "epsilon", wordTrig = false }, { t("\\epsilon") }),
-	s({ trig = "e;", snippetType = "autosnippet", desc = "varepsilon", wordTrig = false }, { t("\\varepsilon") }),
-	s({ trig = "p;", snippetType = "autosnippet", desc = "varphi", wordTrig = false }, { t("\\varphi") }),
-	s({ trig = "z;", snippetType = "autosnippet", desc = "zeta", wordTrig = false }, { t("\\zeta") }),
-	s({ trig = "t;", snippetType = "autosnippet", desc = "theta", wordTrig = false }, { t("\\theta") }),
+	s(
+		{ trig = "a;", snippetType = "autosnippet", desc = "alpha", wordTrig = false },
+		{ t("\\alpha") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "b;", snippetType = "autosnippet", desc = "beta", wordTrig = false },
+		{ t("\\beta") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "g;", snippetType = "autosnippet", desc = "gamma", wordTrig = false },
+		{ t("\\gamma") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "G;", snippetType = "autosnippet", desc = "Gamma", wordTrig = false },
+		{ t("\\Gamma") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "d;", snippetType = "autosnippet", desc = "delta", wordTrig = false },
+		{ t("\\delta") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "D;", snippetType = "autosnippet", desc = "Delta", wordTrig = false },
+		{ t("\\Delta") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "E;", snippetType = "autosnippet", desc = "epsilon", wordTrig = false },
+		{ t("\\epsilon") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "e;", snippetType = "autosnippet", desc = "varepsilon", wordTrig = false },
+		{ t("\\varepsilon") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "p;", snippetType = "autosnippet", desc = "varphi", wordTrig = false },
+		{ t("\\varphi") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "z;", snippetType = "autosnippet", desc = "zeta", wordTrig = false },
+		{ t("\\zeta") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "t;", snippetType = "autosnippet", desc = "theta", wordTrig = false },
+		{ t("\\theta") },
+		{ condition = in_math }
+	),
 	s({ trig = "T;", snippetType = "autosnippet", desc = "Theta", wordTrig = false }, { t("\\Theta") }),
 	s({ trig = ";t", snippetType = "autosnippet", desc = "vartheta", wordTrig = false }, { t("\\vartheta") }),
 	s({ trig = "i;", snippetType = "autosnippet", desc = "iota", wordTrig = false }, { t("\\iota") }),
