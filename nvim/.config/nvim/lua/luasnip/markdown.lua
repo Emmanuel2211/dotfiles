@@ -6,7 +6,7 @@ local loc = require("luasnip.locals")
 local s, t, i, f, d, c, sn, l, rep = loc.s, loc.t, loc.i, loc.f, loc.d, loc.c, loc.sn, loc.l, loc.rep
 local postfix = loc.postfix
 local fmta = loc.fmta
-local in_md_math = loc.in_markdown_math
+local in_math = loc.in_math
 local gen_matrix = loc.generate_matrix
 
 -- Require Latex math snippets, with 'locals' math function working for .md & VimTex
@@ -30,8 +30,14 @@ local markdown_snippets = {
       ]],
 			{ i(1), i(2, "="), i(3) }
 		),
-		{ condition = in_md_math }
+		{ condition = in_math }
 	),
+	s({
+		trig = "QED",
+		snippetType = "autosnippet",
+		desc = "End Proof Square",
+		wordTrig = false,
+	}, t("\\tag*{$\\blacksquare$}"), { condition = in_math }),
 
 	s({
 		trig = "thm",

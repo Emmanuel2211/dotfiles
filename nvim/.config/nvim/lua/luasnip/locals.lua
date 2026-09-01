@@ -3,31 +3,54 @@ local M = {}
 
 -- VimTex & Markdown "math zone" detection
 M.in_math = function()
+	-- 1. Si es un archivo TeX nativo, usamos VimTeX
+	if vim.bo.filetype == "tex" then
+		return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
+	end
+
+	-- 2. Si es Markdown, aplicamos la detección directa
 	if vim.bo.filetype == "markdown" then
-		-- Get current line and cursor column
 		local line = vim.api.nvim_get_current_line()
 		local col = vim.api.nvim_win_get_cursor(0)[2]
 
-		-- Simple, instant check: count dollar signs on the current line or context
-		-- Or check if we are between $$ pairs
-		local _, count = line:gsub("%$", "")
-		if count >= 2 then
+		local before = line:sub(1, col)
+		local after = line:sub(col + 1)
+
+		-- Limpiamos dólares escapados (\$)
+		before = before:gsub("\\%$", "")
+		after = after:gsub("\\%$", "")
+
+		-- MAGIA: Convertimos los $$ en $ para que la misma lógica funcione para ambos
+		before = before:gsub("%$%$", "$")
+		after = after:gsub("%$%$", "$")
+
+		-- Contamos cuántos delimitadores hay antes y después
+		local _, dollars_before = before:gsub("%$", "")
+		local _, dollars_after = after:gsub("%$", "")
+
+		-- INLINE: Si hay un número impar antes Y al menos uno cerrando después, estamos dentro.
+		if dollars_before % 2 == 1 and dollars_after > 0 then
 			return true
 		end
 
-		-- Multi-line block check: look upwards for $$
+		-- MODO BLOQUE MULTI-LÍNEA ($$ ... $$)
 		local row = vim.api.nvim_win_get_cursor(0)[1]
-		local lines = vim.api.nvim_buf_get_lines(0, 0, row, false)
+		local lines = vim.api.nvim_buf_get_lines(0, 0, row - 1, false)
 		local block_count = 0
+
 		for _, l in ipairs(lines) do
-			if l:match("^%s*%$%$") then
+			-- El '>? ' le dice a Lua que puede haber un '>' (de callouts) opcional antes de los $$
+			if l:match("^%s*>?[%s]*%$%$") then
 				block_count = block_count + 1
 			end
 		end
-		return (block_count % 2 == 1)
+
+		if block_count % 2 == 1 then
+			return true
+		end
 	end
 
-	return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
+	return false
 end
 
 -- test whether the parent snippet has content from a visual selection.

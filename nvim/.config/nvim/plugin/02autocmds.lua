@@ -94,6 +94,11 @@ vim.api.nvim_create_autocmd("FileType", {
 	group = augroup,
 	pattern = { "markdown", "text", "gitcommit" },
 	callback = function()
+		-- Le dice a Neovim que '>' es un marcador de lista/comentario
+		vim.opt_local.comments:append("b:>")
+		-- 'r': Inserta el marcador al presionar Enter en modo Insertar
+		-- 'o': Inserta el marcador al usar 'o' u 'O' en modo Normal
+		vim.opt_local.formatoptions:append("ro")
 		vim.opt_local.wrap = true
 		vim.opt_local.linebreak = true
 		vim.opt_local.spell = true
@@ -102,9 +107,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Autosave when Leaving Insert Mode or Text changed
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
-  callback = function()
-    if vim.bo.modified and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
-      vim.cmd("silent! write")
-    end
-  end,
+	callback = function()
+		if vim.bo.modified and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
+			vim.cmd("silent! write")
+		end
+	end,
 })

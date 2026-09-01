@@ -61,6 +61,12 @@ vim.keymap.set("n", "<leader>d", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
 
+-- Markdonw & Obsidian keymap for addint ">" callouts to selected text
+-- Selecciona el texto, presiona <Líder> + > y lo convierte en callout
+vim.keymap.set("v", "<leader>>", ":s/^/> /<CR>:noh<CR>", { silent = true, desc = "Añadir formato callout" })
+-- Selecciona el texto, presiona <Líder> + < y le quita el callout
+vim.keymap.set("v", "<leader><", ":s/^> //<CR>:noh<CR>", { silent = true, desc = "Quitar formato callout" })
+
 -- == Native Code Runner ==
 --
 -- vim.keymap.set('n', '<leader>r', function()

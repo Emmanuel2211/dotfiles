@@ -5,6 +5,22 @@ local postfix = loc.postfix
 local fmta = loc.fmta
 local in_math = loc.in_math
 local gen_matrix = loc.generate_matrix
+--
+--
+-- Función auxiliar para detectar si estamos en un callout
+local function get_callout_prefix()
+	local line = vim.api.nvim_get_current_line()
+	-- Busca cualquier combinación de espacios y el símbolo '>' al inicio de la línea
+	local prefix = line:match("^[%s>]+")
+
+	-- Si la línea realmente tiene un '>', devolvemos ese prefijo exacto
+	if prefix and prefix:find(">") then
+		return prefix
+	end
+
+	-- Si es una linea de texto normal, no agregamos nada
+	return ""
+end
 
 -- Math snippets!!
 
@@ -15,15 +31,24 @@ return {
 		{ trig = "mk", snippetType = "autosnippet", desc = "inline math mode", wordTrig = true },
 		fmta("$<>$", { i(1, "Inline math!") })
 	),
+	-- display math dinamico! detecta ">" de callouts
 	s(
-		{ trig = "dm", snippetType = "autosnippet", desc = "math mode block", wordTrig = true },
+		{ trig = "dm", snippetType = "autosnippet", wordTrig = false },
 		fmta(
 			[[
-      $$
-      <>
-      $$
-      ]],
-			{ i(1, "Math block!") }
+        $$
+        <><>
+        <>$$
+        ]],
+			{
+				f(function()
+					return get_callout_prefix()
+				end), -- Inyecta el '>' en la línea del medio
+				i(1), -- Tu cursor va aquí
+				f(function()
+					return get_callout_prefix()
+				end), -- Inyecta el '>' en la última línea
+			}
 		)
 	),
 
@@ -226,6 +251,16 @@ return {
 
 	-- == Logica y Notaciones ==
 	s(
+		{ trig = "!=", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
+		{ t("\\neq") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "iff", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
+		{ t("\\iff") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "=>", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
 		{ t("\\implies") },
 		{ condition = in_math }
@@ -345,6 +380,11 @@ return {
 
 	-- == Operaciones Basicas ==
 	s(
+		{ trig = "rd", snippetType = "autosnippet", desc = "Squared", wordTrig = false },
+		{ t("^{"), i(1, "n"), t("}"), i(2) },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "sr", snippetType = "autosnippet", desc = "Squared", wordTrig = false },
 		t("^{2}"),
 		{ condition = in_math }
@@ -372,12 +412,12 @@ return {
 		t("}"),
 	}, { condition = in_math }),
 	s(
-		{ trig = "*", snippetType = "autosnippet", desc = "Arbitrary exponent", wordTrig = false },
+		{ trig = "*", snippetType = "autosnippet", desc = "producto o multiplicacion", wordTrig = false },
 		{ t("\\cdot") },
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "cdots", snippetType = "autosnippet", desc = "Arbitrary exponent", wordTrig = false },
+		{ trig = "cdots", snippetType = "autosnippet", desc = "productos", wordTrig = false },
 		{ t("\\cdots") },
 		{ condition = in_math }
 	),
@@ -491,32 +531,40 @@ return {
 		trig = "min",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\min \\{"), i(1, "f"), t("\\} "), i(2) }, { condition = in_math }),
+		desc = "minimo",
+	}, { t("\\min \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "max",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\max \\{"), i(1, "f"), t("\\} "), i(2) }, { condition = in_math }),
+		desc = "maximo",
+	}, { t("\\max \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "sup",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\sup \\{"), i(1, "f"), t("\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\sup \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "inf",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\inf \\{"), i(1, "f"), t("\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\inf \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "log",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\log \\{"), i(1, "f"), t("\\} "), i(2) }, { condition = in_math }),
+		desc = "logaritmo",
+	}, { t("\\log \\left("), i(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
 	s({
 		trig = "ln",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\ln \\{"), i(1, "f"), t("\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\ln \\left("), i(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
+	s({
+		trig = "exp",
+		snippetType = "autosnippet",
+		wordTrig = false,
+	}, { t("\\exp \\left("), i(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
 	s({
 		trig = "lim",
 		snippetType = "autosnippet",
