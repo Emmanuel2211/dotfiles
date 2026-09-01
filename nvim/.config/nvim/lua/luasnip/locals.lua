@@ -10,7 +10,7 @@ M.in_math = function()
 
 		-- Simple, instant check: count dollar signs on the current line or context
 		-- Or check if we are between $$ pairs
-		local _, count = line:gsub("%$%", "")
+		local _, count = line:gsub("%$", "")
 		if count >= 2 then
 			return true
 		end
@@ -44,10 +44,14 @@ end
 -- Function for NxM-sized matrices
 M.generate_matrix = function(args, snip)
 	local ls = require("luasnip")
-	local rows = tonumber(snip.captures[2])
-	local cols = tonumber(snip.captures[3])
+
+	-- Protegemos la conversión asegurando que si snip.captures es nil o vacío, use 1 por defecto
+	local rows = tonumber(snip.captures and snip.captures[2]) or 1
+	local cols = tonumber(snip.captures and snip.captures[3]) or 1
+
 	local nodes = {}
 	local ins_indx = 1
+
 	for j = 1, rows do
 		table.insert(nodes, ls.restore_node(ins_indx, tostring(j) .. "x1", ls.insert_node(1)))
 		ins_indx = ins_indx + 1
@@ -58,7 +62,11 @@ M.generate_matrix = function(args, snip)
 		end
 		table.insert(nodes, ls.text_node({ "\\\\", "" }))
 	end
-	nodes[#nodes] = ls.text_node("\\\\")
+
+	if #nodes > 0 then
+		nodes[#nodes] = ls.text_node("\\\\")
+	end
+
 	return ls.snippet_node(nil, nodes)
 end
 

@@ -25,20 +25,55 @@ local markdown_snippets = {
 		fmta(
 			[[
       \begin{align}
-        <>
+        <> &<> <>
       \end{align}
       ]],
-			{ i(1) }
+			{ i(1), i(2, "="), i(3) }
 		),
 		{ condition = in_md_math }
 	),
+
 	s({
-		trig = "hello",
+		trig = "thm",
 		snippetType = "autosnippet",
-		wordTrig = false,
+		wordTrig = true,
 	}, {
-		t("hello world"),
-	}, { condition = in_md_math }),
+		t("> [!theorem] **"),
+		i(1, "Teorema."),
+		t("** ("),
+		i(2),
+		t(")"),
+	}),
+
+	s({
+		trig = "exm",
+		snippetType = "autosnippet",
+		wordTrig = true,
+	}, {
+		t("> [!example]+ "),
+		i(1, "Ejemplo."),
+		t(" ("),
+		i(2),
+		t(")"),
+	}),
+
+	s({
+		trig = "prf",
+		snippetType = "autosnippet",
+		wordTrig = true,
+	}, {
+		t("> [!proof]+ **Proof.**"),
+		i(1),
+	}),
+
+	s({
+		trig = "obss",
+		snippetType = "autosnippet",
+		wordTrig = true,
+	}, {
+		t("> [!observation]+ **Observación.**"),
+		i(1),
+	}),
 }
 
 vim.list_extend(markdown_snippets, tex_math_snippets)
