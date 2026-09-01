@@ -113,9 +113,11 @@ if ! shopt -oq posix; then
 fi
 
 
+export PATH=$HOME/.npm-global/bin:$PATH
 export BROWSER=firefox
 export PATH="$HOME/.local/zig:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(fzf --bash)"
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+

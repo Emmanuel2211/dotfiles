@@ -1,69 +1,12 @@
--- VimTex ""math zone" detection
-local function math()
-	return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
-end
+local loc = require("luasnip.locals")
 
--- test whether the parent snippet has content from a visual selection. If yes, put into a text  node, if no then start an insert node
-local visualSelectionOrInsert = function(args, parent)
-	if #parent.snippet.env.LS_SELECT_RAW > 0 then
-		return sn(nil, t(parent.snippet.env.LS_SELECT_RAW))
-	else -- If LS_SELECT_RAW is empty, return a blank insert node
-		return sn(nil, i(1))
-	end
-end
+local s, t, i, f, d, c, sn, l, rep = loc.s, loc.t, loc.i, loc.f, loc.d, loc.c, loc.sn, loc.l, loc.rep
+local postfix = loc.postfix
+local fmta = loc.fmta
+local math = loc.math
+local gen_matrix = loc.generate_matrix
 
--- Function for NxM-sized matrices with diferent delimiters
-local generate_matrix = function(args, snip)
-	local rows = tonumber(snip.captures[2])
-	local cols = tonumber(snip.captures[3])
-	local nodes = {}
-	local ins_indx = 1
-	for j = 1, rows do
-		table.insert(nodes, r(ins_indx, tostring(j) .. "x1", i(1)))
-		ins_indx = ins_indx + 1
-		for k = 2, cols do
-			table.insert(nodes, t(" & "))
-			table.insert(nodes, r(ins_indx, tostring(j) .. "x" .. tostring(k), i(1)))
-			ins_indx = ins_indx + 1
-		end
-		table.insert(nodes, t({ "\\\\", "" }))
-	end
-	-- fix last node.
-	nodes[#nodes] = t("\\\\")
-	return sn(nil, nodes)
-end
-
--- Variable declarations
-local ls = require("luasnip")
-local s = ls.snippet
-local sn = ls.snippet_node
-local isn = ls.indent_snippet_node
-local t = ls.text_node
-local i = ls.insert_node
-local f = ls.function_node
-local c = ls.choice_node
-local d = ls.dynamic_node
-local r = ls.restore_node
-local events = require("luasnip.util.events")
-local ai = require("luasnip.nodes.absolute_indexer")
-local opt = require("luasnip.nodes.optional_arg")
-local extras = require("luasnip.extras")
-local l = extras.lambda
-local rep = extras.rep
-local p = extras.partial
-local m = extras.match
-local n = extras.nonempty
-local dl = extras.dynamic_lambda
-local fmt = require("luasnip.extras.fmt").fmt
-local fmta = require("luasnip.extras.fmt").fmta
-local conds = require("luasnip.extras.expand_conditions")
-local postfix = require("luasnip.extras.postfix").postfix
-local types = require("luasnip.util.types")
-local parse = require("luasnip.util.parser").parse_snippet
-local ms = ls.multi_snippet
-local k = require("luasnip.nodes.key_indexer").new_key
-
--- Tex snippets!!
+-- Math snippets!!
 
 return {
 
@@ -275,7 +218,7 @@ return {
 						return snip.captures[1] .. "matrix"
 					end
 				end),
-				d(1, generate_matrix),
+				d(1, gen_matrix),
 				f(function(_, snip)
 					return snip.captures[1] .. "matrix"
 				end),
