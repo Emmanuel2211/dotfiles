@@ -251,17 +251,32 @@ return {
 
 	-- == Logica y Notaciones ==
 	s(
-		{ trig = "!=", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
+		{ trig = "!=", snippetType = "autosnippet", desc = "Diferente de", wordTrig = false },
 		{ t("\\neq") },
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "iff", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
+		{ trig = ">=", snippetType = "autosnippet", desc = "Mayor o igual", wordTrig = false },
+		{ t("\\geq") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "<=", snippetType = "autosnippet", desc = "Menor o igual", wordTrig = false },
+		{ t("\\leq") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "iff", snippetType = "autosnippet", desc = "si y solo si", wordTrig = false },
 		{ t("\\iff") },
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "=>", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
+		{ trig = "thrf", snippetType = "autosnippet", desc = "Por lo tanto", wordTrig = false },
+		{ t("\\therefore") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "=>", snippetType = "autosnippet", desc = "Implicacion", wordTrig = false },
 		{ t("\\implies") },
 		{ condition = in_math }
 	),
@@ -417,7 +432,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "cdots", snippetType = "autosnippet", desc = "productos", wordTrig = false },
+		{ trig = "\\cdot\\cdot\\cdot", snippetType = "autosnippet", desc = "productos", wordTrig = false },
 		{ t("\\cdots") },
 		{ condition = in_math }
 	),
