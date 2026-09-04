@@ -80,6 +80,28 @@ local markdown_snippets = {
 		t("> [!observation]+ **Observación.**"),
 		i(1),
 	}),
+
+	s(
+		{
+			trig = "Zettel",
+			wordTrig = true,
+		},
+		fmta(
+			[[
+      ---
+      type: zettel
+      date: "2026-09-01"
+      status: undone
+      aliases:
+      tags:
+       - <>
+      cssclasses:
+       - romana
+      ---
+      ]],
+			{ i(1) }
+		)
+	),
 }
 
 vim.list_extend(markdown_snippets, tex_math_snippets)
