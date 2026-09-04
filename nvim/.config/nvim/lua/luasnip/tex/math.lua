@@ -33,7 +33,7 @@ return {
 	),
 	-- display math dinamico! detecta ">" de callouts
 	s(
-		{ trig = "dm", snippetType = "autosnippet", wordTrig = false },
+		{ trig = "dm", snippetType = "autosnippet", wordTrig = true },
 		fmta(
 			[[
         $$
@@ -252,37 +252,37 @@ return {
 	-- == Logica y Notaciones ==
 	s(
 		{ trig = "!=", snippetType = "autosnippet", desc = "Diferente de", wordTrig = false },
-		{ t("\\neq") },
+		{ t("\\neq ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = ">=", snippetType = "autosnippet", desc = "Mayor o igual", wordTrig = false },
-		{ t("\\geq") },
+		{ t("\\geq ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "<=", snippetType = "autosnippet", desc = "Menor o igual", wordTrig = false },
-		{ t("\\leq") },
+		{ t("\\leq ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "iff", snippetType = "autosnippet", desc = "si y solo si", wordTrig = false },
-		{ t("\\iff") },
+		{ t("\\iff ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "thrf", snippetType = "autosnippet", desc = "Por lo tanto", wordTrig = false },
-		{ t("\\therefore") },
+		{ t("\\therefore ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "=>", snippetType = "autosnippet", desc = "Implicacion", wordTrig = false },
-		{ t("\\implies") },
+		{ t("\\implies ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "=<", snippetType = "autosnippet", desc = "Implied by", wordTrig = false },
-		{ t("\\impliedby") },
+		{ t("\\impliedby ") },
 		{ condition = in_math }
 	),
 	s(
@@ -297,7 +297,7 @@ return {
 	),
 	s(
 		{ trig = "inn", snippetType = "autosnippet", desc = "membership relation", wordTrig = false },
-		{ t("\\in") },
+		{ t("\\in ") },
 		{ condition = in_math }
 	),
 	s(
@@ -306,18 +306,23 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "not", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
+		{ t("\\not") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "fall", snippetType = "autosnippet", desc = "for all", wordTrig = false },
-		{ t("\\forall") },
+		{ t("\\forall ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "exs", snippetType = "autosnippet", desc = "Exists", wordTrig = false },
-		{ t("\\exists") },
+		{ t("\\exists ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "mid", snippetType = "autosnippet", desc = "tal que", wordTrig = false },
-		{ t("\\mid") },
+		{ t("\\mid ") },
 		{ condition = in_math }
 	),
 	s(
@@ -364,7 +369,7 @@ return {
 	}, fmta([[\bcup_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
 	s(
 		{ trig = "smi", snippetType = "autosnippet", desc = "Set difference", wordTrig = false },
-		{ t("\\setminus") },
+		{ t("\\setminus ") },
 		{ condition = in_math }
 	),
 	s(
@@ -374,12 +379,12 @@ return {
 	),
 	s(
 		{ trig = "sub=", snippetType = "autosnippet", desc = "Subset", wordTrig = false },
-		{ t("\\subseteq") },
+		{ t("\\subseteq ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "sup=", snippetType = "autosnippet", desc = "Supset", wordTrig = false },
-		{ t("\\supseteq") },
+		{ t("\\supseteq ") },
 		{ condition = in_math }
 	),
 	s(
@@ -524,7 +529,7 @@ return {
 	-- == Calculo y Funciones ==
 	s(
 		{ trig = "->", snippetType = "autosnippet", desc = "Implies", wordTrig = false },
-		{ t("\\to") },
+		{ t("\\to ") },
 		{ condition = in_math }
 	),
 	s({
@@ -717,6 +722,12 @@ return {
 	s(
 		{ trig = "lr{}", snippetType = "autosnippet", wordTrig = false },
 		fmta([[\left\{ <> \right\}<>]], { i(1), i(2) }),
+		{ condition = in_math }
+	),
+	-- Span < >
+	s(
+		{ trig = "span", snippetType = "autosnippet", wordTrig = false },
+		fmta([[\langle <> \rangle<>]], { i(1), i(2) }),
 		{ condition = in_math }
 	),
 
