@@ -415,6 +415,11 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "sq", snippetType = "autosnippet", desc = "Raiz Cuadrada", wordTrig = false },
+		{ t("\\sqrt{"), i(1, "x"), t("}"), i(2) },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "//", snippetType = "autosnippet", desc = "Fraction", wordTrig = true },
 		fmta("\\frac{<>}{<>}", { i(1), i(2) }),
 		{ condition = in_math }
@@ -441,6 +446,16 @@ return {
 		{ t("\\cdots") },
 		{ condition = in_math }
 	),
+	s(
+		{ trig = "perp", snippetType = "autosnippet", desc = "Ortogonal", wordTrig = false },
+		{ t("\\perp") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "indp", snippetType = "autosnippet", desc = "Probabilidad Independiente", wordTrig = false },
+		{ t("\\perp\\!\\!\\!\\perp ") },
+		{ condition = in_math }
+	),
 	s({
 		trig = "sum",
 		snippetType = "autosnippet",
@@ -459,13 +474,14 @@ return {
 	s(
 		{
 			-- El patrón: (Grupo 1: letra o paréntesis/corchete de cierre) seguido de (Grupo 2: un dígito)
+			-- Indices o Index
 			trig = "([%a%)%]%}])(%d)",
 			regTrig = true,
 			wordTrig = false,
 			snippetType = "autosnippet",
 			desc = "Number Index Function",
 		},
-		fmta("<>_{<><>}", {
+		fmta("<>_{<>}<>", {
 			f(function(_, snip)
 				return snip.captures[1]
 			end), -- Devuelve la letra (ej. 'x')
@@ -651,7 +667,7 @@ return {
 	),
 	s(
 		{ trig = "hta", snippetType = "autosnippet", desc = "tangente", wordTrig = false },
-		{ t("\\htan("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\tanh("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -784,7 +800,7 @@ return {
 	),
 	s(
 		{ trig = "oline", snippetType = "autosnippet", desc = "over line", wordTrig = false },
-		{ t("\\underline{"), i(1), t("}"), i(2) },
+		{ t("\\overline{"), i(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
