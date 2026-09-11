@@ -349,24 +349,26 @@ return {
 	-- == Conjuntos ==
 	s(
 		{ trig = "cap", snippetType = "autosnippet", desc = "Set intersection", wordTrig = false },
-		{ t("\\cap") },
+		{ t("\\cap ") },
 		{ condition = in_math }
 	),
 	s({
 		trig = "bcap",
 		snippetType = "autosnippet",
+		priority = 2000,
 		wordTrig = false,
-	}, fmta([[\bcap_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
+	}, fmta([[\bigcap_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
 	s(
 		{ trig = "cup", snippetType = "autosnippet", desc = "Set union", wordTrig = false },
-		{ t("\\cup") },
+		{ t("\\cup ") },
 		{ condition = in_math }
 	),
 	s({
 		trig = "bcup",
 		snippetType = "autosnippet",
+		priority = 2000,
 		wordTrig = false,
-	}, fmta([[\bcup_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
+	}, fmta([[\bigcup_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
 	s(
 		{ trig = "smi", snippetType = "autosnippet", desc = "Set difference", wordTrig = false },
 		{ t("\\setminus ") },
@@ -636,7 +638,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "hsi", snippetType = "autosnippet", desc = "seno", wordTrig = false },
+		{ trig = "hsin", snippetType = "autosnippet", priority = 2000, desc = "seno", wordTrig = false },
 		{ t("\\sinh("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
@@ -651,7 +653,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "hco", snippetType = "autosnippet", desc = "coseno", wordTrig = false },
+		{ trig = "hcos", snippetType = "autosnippet", priority = 2000, desc = "coseno", wordTrig = false },
 		{ t("\\cosh("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
@@ -666,7 +668,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "hta", snippetType = "autosnippet", desc = "tangente", wordTrig = false },
+		{ trig = "htan", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
 		{ t("\\tanh("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
