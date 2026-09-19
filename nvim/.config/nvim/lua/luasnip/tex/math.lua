@@ -286,13 +286,18 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "equiv", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
+		{ t("\\equiv ") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "and", snippetType = "autosnippet", desc = "and logical symbol", wordTrig = false },
-		{ t("\\land") },
+		{ t("\\land ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "or", snippetType = "autosnippet", desc = "or logical symbol", wordTrig = false },
-		{ t("\\lor") },
+		{ t("\\lor ") },
 		{ condition = in_math }
 	),
 	s(
@@ -303,6 +308,11 @@ return {
 	s(
 		{ trig = "notin", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
 		{ t("\\not\\in") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "neg", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
+		{ t("\\neq ") },
 		{ condition = in_math }
 	),
 	s(
@@ -375,13 +385,23 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "ssmi", snippetType = "autosnippet", desc = "Diferencia Simetrica", wordTrig = false },
-		{ t("\\vartriangle") },
+		{ trig = "ssmi", snippetType = "autosnippet", priority = 2000, desc = "Diferencia Simetrica", wordTrig = false },
+		{ t("\\vartriangle ") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "subset", snippetType = "autosnippet", desc = "Subset", wordTrig = false },
+		{ t("\\subset ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "sub=", snippetType = "autosnippet", desc = "Subset", wordTrig = false },
 		{ t("\\subseteq ") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "sub!=", snippetType = "autosnippet", priority = 2000, desc = "Subset", wordTrig = false },
+		{ t("\\subsetneq ") },
 		{ condition = in_math }
 	),
 	s(
@@ -440,12 +460,12 @@ return {
 	}, { condition = in_math }),
 	s(
 		{ trig = "*", snippetType = "autosnippet", desc = "producto o multiplicacion", wordTrig = false },
-		{ t("\\cdot") },
+		{ t("\\cdot ") },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "\\cdot\\cdot\\cdot", snippetType = "autosnippet", desc = "productos", wordTrig = false },
-		{ t("\\cdots") },
+		{ t("\\cdots ") },
 		{ condition = in_math }
 	),
 	s(
@@ -613,12 +633,27 @@ return {
 		{
 			trig = "dint",
 			snippetType = "autosnippet",
+			priority = 2000,
 			desc = "Integrals",
 			wordTrig = false,
 		},
-		fmta([[\int_{<>}^{<>} <> \, d<> <>]], { i(1, "a"), i(2, "b"), i(3, "f(x)"), i(4, "x"), i(5) }),
+		fmta([[\int_{<>}^{<>} <> \, d<><>]], { i(1, "a"), i(2, "b"), i(3, "f(x)"), i(4, "x"), i(5) }),
 		{ condition = in_math }
 	),
+	s({
+		trig = "int",
+		snippetType = "autosnippet",
+		desc = "Integrals",
+		wordTrig = false,
+	}, fmta([[\int <> \, d<><>]], { i(1, "f(x)"), i(2, "x"), i(3) }), { condition = in_math }),
+	s({
+		trig = "eint",
+		snippetType = "autosnippet",
+		priority = 2000,
+		desc = "La barra que evalua la integral",
+		wordTrig = false,
+	}, fmta([[\bigg|_{<>}^{<>}<>]], { i(1, "a"), i(2, "b"), i(3) }), { condition = in_math }),
+
 	s({
 		trig = "der",
 		snippetType = "autosnippet",
@@ -629,7 +664,7 @@ return {
 	-- == Trigonometricas
 	s(
 		{ trig = "sin", snippetType = "autosnippet", desc = "seno", wordTrig = false },
-		{ t("\\sin("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\sin("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -644,7 +679,7 @@ return {
 	),
 	s(
 		{ trig = "cos", snippetType = "autosnippet", desc = "coseno", wordTrig = false },
-		{ t("\\cos("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\cos("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -659,7 +694,7 @@ return {
 	),
 	s(
 		{ trig = "tan", snippetType = "autosnippet", desc = "tangente", wordTrig = false },
-		{ t("\\tan("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\tan("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
