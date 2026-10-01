@@ -286,6 +286,16 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "simm", snippetType = "autosnippet", desc = "Relacion de Equivalencia o semejanza", wordTrig = false },
+		{ t("\\sim ") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "xx", snippetType = "autosnippet", desc = "Producto Cartesiano", wordTrig = false },
+		{ t("\\times ") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "equiv", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
 		{ t("\\equiv ") },
 		{ condition = in_math }
@@ -306,7 +316,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "notin", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
+		{ trig = "noin", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
 		{ t("\\not\\in") },
 		{ condition = in_math }
 	),
@@ -478,6 +488,11 @@ return {
 		{ t("\\perp\\!\\!\\!\\perp ") },
 		{ condition = in_math }
 	),
+	s(
+		{ trig = "sop", snippetType = "autosnippet", desc = "Probabilidad Independiente", wordTrig = false },
+		{ t("\\operatorname{supp}("), i(1, "X"), t(")"), i(2) },
+		{ condition = in_math }
+	),
 	s({
 		trig = "sum",
 		snippetType = "autosnippet",
@@ -579,12 +594,12 @@ return {
 		trig = "dom",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\operatorname{Dom} \\{"), i(1), t("\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\operatorname{Dom} \\{"), i(1), t("\\}"), i(2) }, { condition = in_math }),
 	s({
 		trig = "img",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\operatorname{Im} \\{"), i(1), t("\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\operatorname{Im} \\{"), i(1), t("\\}"), i(2) }, { condition = in_math }),
 	s({
 		trig = "min",
 		snippetType = "autosnippet",
@@ -668,7 +683,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "arcsin", snippetType = "autosnippet", desc = "arcoseno", wordTrig = false },
+		{ trig = "arcsin", snippetType = "autosnippet", priority = 2000, desc = "arcoseno", wordTrig = false },
 		{ t("\\arcsin("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
@@ -683,7 +698,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "arccos", snippetType = "autosnippet", desc = "arcocoseno", wordTrig = false },
+		{ trig = "arccos", snippetType = "autosnippet", priority = 2000, desc = "arcocoseno", wordTrig = false },
 		{ t("\\arccos("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
@@ -698,7 +713,7 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "arctan", snippetType = "autosnippet", desc = "arcotangente", wordTrig = false },
+		{ trig = "arctan", snippetType = "autosnippet", priority = 2000, desc = "arcotangente", wordTrig = false },
 		{ t("\\arctan("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
