@@ -73,6 +73,15 @@ local markdown_snippets = {
 	}),
 
 	s({
+		trig = "note",
+		snippetType = "autosnippet",
+		wordTrig = true,
+	}, {
+		t("> [!Info]+ **Nota!** <>"),
+		i(1),
+	}),
+
+	s({
 		trig = "obss",
 		snippetType = "autosnippet",
 		wordTrig = true,
