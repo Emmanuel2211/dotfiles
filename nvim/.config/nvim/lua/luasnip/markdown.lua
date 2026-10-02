@@ -77,7 +77,7 @@ local markdown_snippets = {
 		snippetType = "autosnippet",
 		wordTrig = true,
 	}, {
-		t("> [!Info]+ **Nota!** <>"),
+		t("> [!Info]+ **Nota!** "),
 		i(1),
 	}),
 

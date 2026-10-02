@@ -400,6 +400,16 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "cuad", snippetType = "autosnippet", desc = "cuadrado de ejemplo", wordTrig = false },
+		{ t("\\sqaure ") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "trian", snippetType = "autosnippet", desc = "Triangulo", wordTrig = false },
+		{ t("\\triangle ") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "subset", snippetType = "autosnippet", desc = "Subset", wordTrig = false },
 		{ t("\\subset ") },
 		{ condition = in_math }
@@ -644,6 +654,13 @@ return {
 		desc = "Limite",
 		wordTrig = false,
 	}, fmta([[\lim_{<> \to <>} <>]], { i(1, "n"), i(2, "\\infty"), i(3, "f(x)") }), { condition = in_math }),
+	s({
+		trig = "alim",
+		snippetType = "autosnippet",
+		desc = "Limite flechita",
+		priority = 2000,
+		wordTrig = false,
+	}, fmta([[\overset{<> \to <>}{\longrightarrow}<>]], { i(1, "x"), i(2, "\\infty"), i(3) }), { condition = in_math }),
 	s(
 		{
 			trig = "dint",
