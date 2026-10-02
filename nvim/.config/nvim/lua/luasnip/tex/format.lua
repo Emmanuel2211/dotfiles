@@ -42,4 +42,9 @@ return {
 			{ i(1) }
 		)
 	),
+
+	s(
+		{ trig = "ttt", snippetType = "autosnippet", desc = "Texto codigo, code text", wordTrig = false },
+		{ t("\\texttt{"), i(1), t("}") }
+	),
 }

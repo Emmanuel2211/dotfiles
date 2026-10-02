@@ -59,6 +59,11 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "aleph", snippetType = "autosnippet", desc = "alpha", wordTrig = false },
+		{ t("\\aleph") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "b;", snippetType = "autosnippet", desc = "beta", wordTrig = false },
 		{ t("\\beta ") },
 		{ condition = in_math }
@@ -84,8 +89,8 @@ return {
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "E;", snippetType = "autosnippet", desc = "epsilon", wordTrig = false },
-		{ t("\\epsilon ") },
+		{ trig = "tq", snippetType = "autosnippet", desc = "epsilon", wordTrig = false },
+		{ t("\\ \\ \\epsilon \\ \\ ") },
 		{ condition = in_math }
 	),
 	s(
@@ -363,9 +368,9 @@ return {
 		{ condition = in_math }
 	),
 	s({
-		trig = "bcap",
+		trig = "ibcap",
 		snippetType = "autosnippet",
-		priority = 2000,
+		priority = 3000,
 		wordTrig = false,
 	}, fmta([[\bigcap_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
 	s(
@@ -373,10 +378,15 @@ return {
 		{ t("\\cup ") },
 		{ condition = in_math }
 	),
+	s(
+		{ trig = "bcup", snippetType = "autosnippet", priority = 2000, desc = "Set union", wordTrig = false },
+		{ t("\\bigcup "), i(1, "A") },
+		{ condition = in_math }
+	),
 	s({
-		trig = "bcup",
+		trig = "ibcup",
 		snippetType = "autosnippet",
-		priority = 2000,
+		priority = 3000,
 		wordTrig = false,
 	}, fmta([[\bigcup_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
 	s(
@@ -419,6 +429,11 @@ return {
 		{ t("\\{ "), i(1), t(" \\}") },
 		{ condition = in_math }
 	),
+	s(
+		{ trig = "xx", sneppetType = "autosnippet", desc = "Producto Cartesiano", wordTrig = false },
+		{ t("\\times ") },
+		{ condition = in_math }
+	),
 
 	-- == Operaciones Basicas ==
 	s(
@@ -458,6 +473,11 @@ return {
 		i(1),
 		t("}"),
 	}, { condition = in_math }),
+	s(
+		{ trig = "oplus", snippetType = "autosnippet", desc = "suma directa", wordTrig = false },
+		{ t("\\oplus ") },
+		{ condition = in_math }
+	),
 	s(
 		{ trig = "*", snippetType = "autosnippet", desc = "producto o multiplicacion", wordTrig = false },
 		{ t("\\cdot ") },
@@ -561,6 +581,17 @@ return {
     ]],
 			{ i(1) }
 		),
+		{ condition = in_math }
+	),
+	-- Span < >
+	s(
+		{ trig = "span", snippetType = "autosnippet", desc = "Generado", wordTrig = false },
+		fmta([[\langle <> \rangle<>]], { i(1), i(2) }),
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "dim", snippetType = "autosnippet", desc = "Dimension", wordTrig = false },
+		fmta([[\operatorname{dim}(<>)<>]], { i(1, "V"), i(2) }),
 		{ condition = in_math }
 	),
 
@@ -775,12 +806,6 @@ return {
 	s(
 		{ trig = "lr{}", snippetType = "autosnippet", wordTrig = false },
 		fmta([[\left\{ <> \right\}<>]], { i(1), i(2) }),
-		{ condition = in_math }
-	),
-	-- Span < >
-	s(
-		{ trig = "span", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\langle <> \rangle<>]], { i(1), i(2) }),
 		{ condition = in_math }
 	),
 
