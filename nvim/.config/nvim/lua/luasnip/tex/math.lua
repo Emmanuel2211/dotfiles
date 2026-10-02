@@ -731,6 +731,11 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "isin", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
+		{ t("\\sin^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "arcsin", snippetType = "autosnippet", priority = 2000, desc = "arcoseno", wordTrig = false },
 		{ t("\\arcsin("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
@@ -740,9 +745,21 @@ return {
 		{ t("\\sinh("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
+	s({
+		trig = "ihsin",
+		snippetType = "autosnippet",
+		priority = 3000,
+		desc = "sino hiperbolico inverso",
+		wordTrig = false,
+	}, { t("\\sinh^{-1}("), i(1, "\\theta"), t(")"), i(2) }, { condition = in_math }),
 	s(
 		{ trig = "cos", snippetType = "autosnippet", desc = "coseno", wordTrig = false },
 		{ t("\\cos("), i(1, "x"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "icos", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
+		{ t("\\cos^{-1}("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -756,8 +773,18 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "ihcos", snippetType = "autosnippet", priority = 3000, desc = "coseno", wordTrig = false },
+		{ t("\\cosh^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "tan", snippetType = "autosnippet", desc = "tangente", wordTrig = false },
 		{ t("\\tan("), i(1, "x"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "itan", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
+		{ t("\\tan^{-1}("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -771,8 +798,28 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "ihtan", snippetType = "autosnippet", priority = 3000, desc = "tangente", wordTrig = false },
+		{ t("\\tanh^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "csc", snippetType = "autosnippet", desc = "cosecante", wordTrig = false },
 		{ t("\\csc("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "icsc", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
+		{ t("\\csc^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "hcsc", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
+		{ t("\\operatorname{csch}("), i(1, "x"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "ihcsc", snippetType = "autosnippet", priority = 3000, desc = "secante", wordTrig = false },
+		{ t("\\operatorname{csch}^{-1}("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -781,13 +828,38 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "isec", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
+		{ t("\\sec^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "hsec", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
+		{ t("\\operatorname{sech}("), i(1, "x"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "ihsec", snippetType = "autosnippet", priority = 3000, desc = "secante", wordTrig = false },
+		{ t("\\operatorname{sech}^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "cot", snippetType = "autosnippet", desc = "cotangente", wordTrig = false },
 		{ t("\\cot("), i(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
-		{ trig = "hct", snippetType = "autosnippet", desc = "cotangente", wordTrig = false },
+		{ trig = "icot", snippetType = "autosnippet", priority = 2000, desc = "cotangente", wordTrig = false },
+		{ t("\\cot^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "hcot", snippetType = "autosnippet", priority = 2000, desc = "cotangente", wordTrig = false },
 		{ t("\\coth("), i(1, "\\theta"), t(")"), i(2) },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "ihcot", snippetType = "autosnippet", priority = 3000, desc = "secante", wordTrig = false },
+		{ t("\\coth^{-1}("), i(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 
