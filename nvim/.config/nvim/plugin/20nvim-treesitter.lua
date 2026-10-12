@@ -23,6 +23,7 @@ local setup_treesitter = function()
 		"json",
 		"lua",
 		"markdown",
+		"markdown_inline",
 		"python",
 		"typescript",
 		"vue",
