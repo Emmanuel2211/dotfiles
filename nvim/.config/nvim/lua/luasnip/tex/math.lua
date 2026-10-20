@@ -683,6 +683,11 @@ return {
 		fmta([[\operatorname{dim}(<>)<>]], { i(1, "V"), i(2) }),
 		{ condition = in_math }
 	),
+	s(
+		{ trig = "gra", snippetType = "autosnippet", desc = "grado polinomio", wordTrig = false },
+		fmta([[\operatorname{gr}(<>)<>]], { i(1, "p"), i(2) }),
+		{ condition = in_math }
+	),
 
 	-- == Calculo y Funciones ==
 	s(

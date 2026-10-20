@@ -57,10 +57,7 @@ local markdown_snippets = {
 		wordTrig = true,
 	}, {
 		t("> [!example]+ "),
-		i(1, "Ejemplo."),
-		t(" ("),
-		i(2),
-		t(")"),
+		i(1, "Aplicación: "),
 	}),
 
 	s({
@@ -87,6 +84,15 @@ local markdown_snippets = {
 		wordTrig = true,
 	}, {
 		t("> [!observation]+ **Observación.**"),
+		i(1),
+	}),
+
+	s({
+		trig = "intuitivo",
+		snippetType = "autosnippet",
+		wordTrig = true,
+	}, {
+		t("> [!tip]- **Idea.**"),
 		i(1),
 	}),
 
