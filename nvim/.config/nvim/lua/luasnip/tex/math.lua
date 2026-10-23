@@ -173,6 +173,11 @@ return {
 		{ t("\\Omega ") },
 		{ condition = in_math }
 	),
+	s(
+		{ trig = "m;", snippetType = "autosnippet", desc = "mu", wordTrig = false },
+		{ t("\\mu ") },
+		{ condition = in_math }
+	),
 
 	-- == Tipografia ==
 	-- ++ mathbb
@@ -298,6 +303,11 @@ return {
 	s(
 		{ trig = "xx", snippetType = "autosnippet", desc = "Producto Cartesiano", wordTrig = false },
 		{ t("\\times ") },
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "cong", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
+		fmta([[\\equiv <> \pmod{<>}]], { i(1, "b"), i(2, "m") }),
 		{ condition = in_math }
 	),
 	s(
@@ -935,6 +945,12 @@ return {
 	s(
 		{ trig = "lre", snippetType = "autosnippet", wordTrig = false },
 		fmta([[\left. <> \right|_{<>}<>]], { i(1), i(2), i(3) }),
+		{ condition = in_math }
+	),
+	-- Combinaciones
+	s(
+		{ trig = "binom", snippetType = "autosnippet", wordTrig = false },
+		fmta([[\binom{<>}{<>}<>]], { i(1, "n"), i(2, "k"), i(3) }),
 		{ condition = in_math }
 	),
 

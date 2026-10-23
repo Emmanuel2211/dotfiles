@@ -92,7 +92,7 @@ local markdown_snippets = {
 		snippetType = "autosnippet",
 		wordTrig = true,
 	}, {
-		t("> [!tip]- **Idea.**"),
+		t("> [!tip]+ **Idea.**"),
 		i(1),
 	}),
 
