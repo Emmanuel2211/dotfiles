@@ -18,7 +18,31 @@ require("blink.cmp").setup({
 		["<C-y>"] = { "accept", "fallback" },
 		["<C-n>"] = { "select_next", "fallback" },
 		["<C-p>"] = { "select_prev", "fallback" },
-		["<Tab>"] = { "snippet_forward", "fallback" },
+		["<Tab>"] = {
+			"snippet_forward",
+			-- Esta funcion es para salir de un parentesis (), {} con <Tab>
+			function(cmp)
+				local col = vim.fn.col(".")
+				local line = vim.fn.getline(".")
+				local next_char = string.sub(line, col, col)
+				local closing_pairs = {
+					["]"] = true,
+					[")"] = true,
+					["}"] = true,
+					['"'] = true,
+					["'"] = true,
+					["`"] = true,
+				}
+
+				-- Si hay un paréntesis/comilla a la derecha, salta sobre él
+				if closing_pairs[next_char] then
+					local right_key = vim.api.nvim_replace_termcodes("<Right>", true, true, true)
+					vim.api.nvim_feedkeys(right_key, "n", true)
+					return true -- Le dice a blink que ya manejamos la tecla
+				end
+			end,
+			"fallback", -- Si no hay snippet ni paréntesis, inserta un Tab normal
+		},
 		["<S-Tab>"] = { "snippet_backward", "fallback" },
 	},
 	appearance = { nerd_font_variant = "mono" },

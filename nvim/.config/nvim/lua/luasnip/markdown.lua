@@ -57,7 +57,7 @@ local markdown_snippets = {
 		wordTrig = true,
 	}, {
 		t("> [!example]+ "),
-		i(1, "Aplicación: "),
+		i(1, "Ejemplo. "),
 	}),
 
 	s({
@@ -113,6 +113,174 @@ local markdown_snippets = {
       cssclasses:
        - romana
       ---
+      ]],
+			{ i(1) }
+		)
+	),
+
+	s(
+		{
+			trig = "2dgraph",
+			wordTrig = true,
+		},
+		fmta(
+			[[
+      ```graph
+      {
+        "version": 1,
+        "type": "function2d",
+        "title": "",
+        "ranges": {
+          "x": [
+            "",
+            ""
+          ],
+          "y": [
+            "",
+            ""
+          ]
+        },
+        "labels": {
+          "x": "x",
+          "y": "y"
+        },
+        "samples": 100,
+        "samplesY": 35,
+        "points": [],
+        "style": {
+          "color": "auto",
+          "surfaceStyle": "wireframe",
+          "grid": true
+        },
+        "size": {
+          "preset": "small",
+          "width": "8cm",
+          "height": "5cm",
+          "displayScale": 0.9,
+          "aspectMode": "auto"
+        },
+        "equation": "",
+        "function": "<>",
+        "solution": "",
+        "xExpression": "",
+        "yExpression": "",
+        "zExpression": "",
+        "parameters": {}
+      }
+      ```
+      ]],
+			{ i(1) }
+		)
+	),
+
+	s(
+		{
+			trig = "2dparam",
+			wordTrig = true,
+		},
+		fmta(
+			[[
+      ```graph
+      {
+        "version": 1,
+        "type": "parametric2d",
+        "title": "",
+        "ranges": {
+          "t": [
+            "",
+            ""
+          ]
+        },
+        "labels": {
+          "x": "x",
+          "y": "y"
+        },
+        "samples": 100,
+        "samplesY": 35,
+        "points": [],
+        "style": {
+          "color": "auto",
+          "surfaceStyle": "wireframe",
+          "grid": true
+        },
+        "size": {
+          "preset": "small",
+          "width": "8cm",
+          "height": "5cm",
+          "displayScale": 0.9,
+          "aspectMode": "auto"
+        },
+        "parameter": "t",
+        "equation": "",
+        "function": "",
+        "expression": "",
+        "solution": "",
+        "xExpression": "<>",
+        "yExpression": "<>",
+        "zExpression": "",
+        "parameters": {}
+      }
+      ```
+      ]],
+			{ i(1), i(2) }
+		)
+	),
+
+	s(
+		{
+			trig = "3dgraph",
+			wordTrig = true,
+		},
+		fmta(
+			[[
+      ```graph
+      {
+        "version": 1,
+        "type": "surface3d",
+        "title": "",
+        "ranges": {
+          "x": [
+            "",
+            ""
+          ],
+          "y": [
+            "",
+            ""
+          ],
+          "z": [
+            "",
+            ""
+          ]
+        },
+        "labels": {
+          "x": "x",
+          "y": "y",
+          "z": "z"
+        },
+        "samples": 100,
+        "samplesY": 35,
+        "points": [],
+        "style": {
+          "surfaceStyle": "colored",
+          "colormap": "heat",
+          "grid": false
+        },
+        "size": {
+          "preset": "small",
+          "width": "12cm",
+          "height": "8cm",
+          "displayScale": 1,
+          "aspectMode": "auto"
+        },
+        "equation": "",
+        "function": "<>",
+        "solution": "",
+        "xExpression": "",
+        "yExpression": "",
+        "zExpression": "",
+        "parameters": {}
+      }
+      ```
       ]],
 			{ i(1) }
 		)
