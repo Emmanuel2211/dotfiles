@@ -104,6 +104,11 @@ return {
 		{ condition = in_math }
 	),
 	s(
+		{ trig = "P;", snippetType = "autosnippet", desc = "phi", wordTrig = false },
+		{ t("\\Phi ") },
+		{ condition = in_math }
+	),
+	s(
 		{ trig = "z;", snippetType = "autosnippet", desc = "zeta", wordTrig = false },
 		{ t("\\zeta") },
 		{ condition = in_math }
@@ -571,35 +576,94 @@ return {
 	),
 
 	-- == Linear Algebra ==
-	-- matrix dynamic node
 	s(
 		{
-			trig = "([%sbBpvV])mat(%d+)x(%d+)",
+			trig = "pmat",
 			snippetType = "autosnippet",
-			regTrig = true,
+			desc = "Matriz con parentesis",
 			wordTrig = false,
-			dscr = "[bBpvV]matrix of A x B size",
+			priority = 2000,
 		},
 		fmta(
 			[[
-    \begin{<>}
-    <>
-    \end{<>}]],
-			{
-				f(function(_, snip)
-					if snip.captures[1] == " " then
-						return "matrix"
-					else
-						return snip.captures[1] .. "matrix"
-					end
-				end),
-				d(1, gen_matrix),
-				f(function(_, snip)
-					return snip.captures[1] .. "matrix"
-				end),
-			}
+      \begin{pmatrix}
+        <>
+      \end{pmatrix}
+      ]],
+			{ i(1) }
 		),
-		{ show_condition = in_math }
+		{ condition = in_math }
+	),
+	s(
+		{
+			trig = "vmat",
+			snippetType = "autosnippet",
+			desc = "Matriz con parentesis",
+			wordTrig = false,
+			priority = 2000,
+		},
+		fmta(
+			[[
+      \begin{vmatrix}
+        <>
+      \end{vmatrix}
+      ]],
+			{ i(1) }
+		),
+		{ condition = in_math }
+	),
+	s(
+		{
+			trig = "bmat",
+			snippetType = "autosnippet",
+			desc = "Matriz con parentesis",
+			wordTrig = false,
+			priority = 2000,
+		},
+		fmta(
+			[[
+      \begin{bmatrix}
+        <>
+      \end{bmatrix}
+      ]],
+			{ i(1) }
+		),
+		{ condition = in_math }
+	),
+	s(
+		{
+			trig = "Bmat",
+			snippetType = "autosnippet",
+			desc = "Matriz con parentesis",
+			wordTrig = false,
+			priority = 2000,
+		},
+		fmta(
+			[[
+      \begin{Bmatrix}
+        <>
+      \end{Bmatrix}
+      ]],
+			{ i(1) }
+		),
+		{ condition = in_math }
+	),
+	s(
+		{
+			trig = "mat",
+			snippetType = "autosnippet",
+			desc = "Matriz sin nada",
+			wordTrig = false,
+		},
+		fmta(
+			[[
+      \begin{matrix}
+        <>
+      \end{matrix}
+      ]],
+			{ i(1) }
+		),
+		{ condition = in_math }
 	),
 	s(
 		{
@@ -998,6 +1062,17 @@ return {
         <> &<> <>
         ]],
 			{ i(1), i(2, "="), i(3) }
+		),
+		{ condition = in_math }
+	),
+	s(
+		{ trig = "--", snippetType = "autosnippet", wordTrig = false },
+		fmta(
+			[[
+        \\
+        <>
+        ]],
+			{ i(1) }
 		),
 		{ condition = in_math }
 	),
