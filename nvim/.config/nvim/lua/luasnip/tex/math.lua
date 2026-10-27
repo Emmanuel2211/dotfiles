@@ -4,7 +4,6 @@ local s, t, i, f, d, c, sn, l, rep = loc.s, loc.t, loc.i, loc.f, loc.d, loc.c, l
 local postfix = loc.postfix
 local fmta = loc.fmta
 local in_math = loc.in_math
-local gen_matrix = loc.generate_matrix
 --
 --
 -- Función auxiliar para detectar si estamos en un callout
