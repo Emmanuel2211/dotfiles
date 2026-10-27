@@ -1048,7 +1048,7 @@ return {
 	),
 	-- Combinaciones
 	s(
-		{ trig = "binom", snippetType = "autosnippet", wordTrig = false },
+		{ trig = "binom", priority = 2000, snippetType = "autosnippet", wordTrig = false },
 		fmta([[\binom{<>}{<>}<>]], { i(1, "n"), i(2, "k"), i(3) }),
 		{ condition = in_math }
 	),
