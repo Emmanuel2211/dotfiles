@@ -6,6 +6,7 @@ local loc = require("luasnip.locals")
 local s, t, i, f, d, c, sn, l, rep = loc.s, loc.t, loc.i, loc.f, loc.d, loc.c, loc.sn, loc.l, loc.rep
 local postfix = loc.postfix
 local fmta = loc.fmta
+local fmt = loc.fmt
 local in_math = loc.in_math
 local gen_matrix = loc.generate_matrix
 
@@ -15,6 +16,7 @@ local tex_math_snippets = require("luasnip.tex.math")
 -- Markdown Snippets!
 
 local markdown_snippets = {
+
 	s(
 		{
 			trig = "align",
@@ -32,6 +34,24 @@ local markdown_snippets = {
 		),
 		{ condition = in_math }
 	),
+
+	s(
+		{
+			trig = "hmk",
+			snippetType = "autosnippet",
+			desc = "html math mode",
+			wordTrig = false,
+		},
+		fmt(
+			[[
+      <span class="math display">
+        {}
+      </span>
+      ]],
+			{ i(1) }
+		)
+	),
+
 	s({
 		trig = "QED",
 		snippetType = "autosnippet",
@@ -283,6 +303,27 @@ local markdown_snippets = {
       ```
       ]],
 			{ i(1) }
+		)
+	),
+
+	s(
+		{
+			trig = "htmlcol",
+			wordTrig = true,
+			snippetType = "autosnippet",
+		},
+		fmt(
+			[[
+      <div style="display: flex; gap: 20px;">
+        <div style="flex: 1;">
+          {}
+        </div>
+        <div style="flex: 1; background: #202020; padding: 10px; border-radius: 5px;">
+          {}
+        </div>
+      </div>
+      ]],
+			{ i(1), i(2) }
 		)
 	),
 }
