@@ -321,7 +321,7 @@ return {
 	),
 	s(
 		{ trig = "cong", snippetType = "autosnippet", desc = "not a member", wordTrig = false },
-		fmta([[\\equiv <> \pmod{<>}]], { i(1, "b"), i(2, "m") }),
+		fmta([[\equiv <> \pmod{<>}]], { i(1, "b"), i(2, "m") }),
 		{ condition = in_math }
 	),
 	s(
@@ -490,11 +490,11 @@ return {
 		t("^{2}"),
 		{ condition = in_math }
 	),
-	s(
-		{ trig = "cb", snippetType = "autosnippet", desc = "Cubed", wordTrig = false },
-		t("^{3}"),
-		{ condition = in_math }
-	),
+	-- s(
+	-- 	{ trig = "cb", snippetType = "autosnippet", desc = "Cubed", wordTrig = false },
+	-- 	t("^{3}"),
+	-- 	{ condition = in_math }
+	-- ),
 	s(
 		{ trig = "sq", snippetType = "autosnippet", desc = "Raiz Cuadrada", wordTrig = false },
 		{ t("\\sqrt{"), i(1, "x"), t("}"), i(2) },

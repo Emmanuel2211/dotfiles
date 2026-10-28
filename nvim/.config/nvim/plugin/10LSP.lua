@@ -182,6 +182,7 @@ do
 			"typescriptreact",
 			"vue",
 			"svelte",
+			"quarto",
 		},
 		init_options = { documentFormatting = true },
 		settings = {
@@ -204,6 +205,7 @@ do
 				typescriptreact = { eslint_d, prettierd },
 				vue = { eslint_d, prettierd },
 				svelte = { eslint_d, prettierd },
+				quarto = { prettierd },
 			},
 		},
 	})
