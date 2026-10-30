@@ -1033,6 +1033,12 @@ return {
 		fmta([[\left\| <> \right\|<>]], { i(1), i(2) }),
 		{ condition = in_math }
 	),
+	-- funcion suelo
+	s(
+		{ trig = "floor", priority = 2000, snippetType = "autosnippet", wordTrig = false },
+		fmta([[\lfloor <> \rfloor<>]], { i(1), i(2) }),
+		{ condition = in_math }
+	),
 	-- Angulares (producto interno, física): lra -> \left\langle ... \right\rangle
 	s(
 		{ trig = "lra", snippetType = "autosnippet", wordTrig = false },
