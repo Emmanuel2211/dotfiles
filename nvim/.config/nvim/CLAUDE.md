@@ -33,7 +33,9 @@ User manual: `LECTURE.md`.
   leaving a root snippet) → menu → closer → fallback.
 - `plugin/50luasnip.lua`: `region_check_events`/`delete_check_events` so old snippets are
   forgotten; `store_selection_keys = "<Tab>"`.
-- `plugin/83lecture.lua`: `<A-b>/<A-i>/<A-=>/<A-m>` formatting, `<leader>ip` photo import
+- `plugin/83lecture.lua`: `<A-b>/<A-i>/<A-=>/<A-m>` formatting (buffer-local `<C-e>` in Markdown
+  changes the color of the `<mark>` under the cursor by editing the hex text; outside a mark it
+  falls back to LuaSnip `change_choice`), `<leader>ip` photo import
   from `~/Descargas` (uses the **arrival** time: LocalSend keeps the original mtime;
   ImageMagick `magick`), `<leader>if` placeholders, `:LectureTodos`, `:CompressImages`.
   `g:lecture_vault` / `g:lecture_photo_dir` override the folders (for tests).

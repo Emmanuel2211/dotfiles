@@ -48,9 +48,11 @@ so write normally. `""` → `\text{ | }`.
 | `<A-b>` | `**|**` | wraps in `**` |
 | `<A-i>` | `*|*` | wraps in `*` |
 | `<A-=>` | `==|==` | wraps in `==` |
-| `<A-m>` | `<mark>`: type, `<Tab>`, `<C-e>` cycles the color, `<Tab>` | `N<A-m>` = color N |
+| `<A-m>` | `<mark>`: type, `<C-e>` cycles the color (without leaving the text), `<Tab>` | `N<A-m>` = color N |
 
 Colors: 1 yellow, 2 red, 3 green, 4 blue, 5 purple. In insert mode, `<Tab>` leaves the format.
+`<C-e>` with the cursor on any existing `<mark>` (insert or normal mode) changes its color.
+In Neovim you see the hex code change; the color only shows in Obsidian.
 
 ## 5. Board photos
 - Send the photos with LocalSend (they arrive in `~/Descargas`), then press `<leader>ip`

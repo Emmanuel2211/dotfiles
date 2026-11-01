@@ -29,20 +29,51 @@ local function insert_wrap(left, right)
 	ls.snip_expand(ls.snippet("", { ls.text_node(left), ls.insert_node(1), ls.text_node(right) }))
 end
 
+-- escribe el texto, <C-e> cambia el color (sin salir del texto), <Tab> sale
 local function insert_mark()
-	local ls = require("luasnip")
-	local choices = {}
-	for _, color in ipairs(MARK_COLORS) do
-		table.insert(choices, ls.text_node(color))
+	insert_wrap(mark_open(MARK_COLORS[1]), "</mark>")
+end
+
+-- <C-e> dentro de un <mark style="background: #...;">...</mark> de la linea actual:
+-- pasa al siguiente color. Devuelve false si el cursor no esta dentro de ningun <mark>.
+local function cycle_mark_color()
+	local line = vim.api.nvim_get_current_line()
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	local search_from = 1
+	while true do
+		local open_start, open_end, color = line:find('<mark style="background: (#%x+);">', search_from)
+		if not open_start then
+			return false
+		end
+		local _, close_end = line:find("</mark>", open_end + 1, true)
+		close_end = close_end or #line
+		-- col es 0-based: dentro si esta entre el "<" de <mark> y el ">" de </mark>
+		if col + 1 >= open_start and col <= close_end then
+			local idx = 1
+			for k, c in ipairs(MARK_COLORS) do
+				if c:upper() == color:upper() then
+					idx = k
+				end
+			end
+			local next_color = MARK_COLORS[idx % #MARK_COLORS + 1]
+			local color_start = open_start + #'<mark style="background: ' - 1
+			-- todos los colores miden lo mismo, asi que el cursor no se mueve
+			vim.api.nvim_buf_set_text(0, row - 1, color_start, row - 1, color_start + #color, { next_color })
+			return true
+		end
+		search_from = close_end + 1
 	end
-	-- escribe el texto, <Tab> al color, <C-e> cambia el color, <Tab> sale
-	ls.snip_expand(ls.snippet("", {
-		ls.text_node('<mark style="background: '),
-		ls.choice_node(2, choices),
-		ls.text_node(';">'),
-		ls.insert_node(1),
-		ls.text_node("</mark>"),
-	}))
+end
+
+local function ctrl_e()
+	if cycle_mark_color() then
+		return
+	end
+	-- fuera de un <mark>: lo de siempre (cambiar la opcion de un choice node de LuaSnip)
+	local ls = require("luasnip")
+	if ls.choice_active() then
+		ls.change_choice(1)
+	end
 end
 
 -- texto entre las marcas '< y '> (charwise o linewise)
@@ -117,6 +148,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			vim.keymap.set("x", key, visual_wrapper(get_left, right), opts(desc))
 			vim.keymap.set("n", key, normal_wrapper(get_left, right), opts(desc))
 		end
+		vim.keymap.set({ "i", "n" }, "<C-e>", ctrl_e, opts("Cambiar color del <mark> / opcion de LuaSnip"))
 	end,
 })
 
