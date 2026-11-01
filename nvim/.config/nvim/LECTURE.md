@@ -57,12 +57,12 @@ In Neovim you see the hex code change; the color only shows in Obsidian.
 ## 5. Board photos
 - Send the photos with LocalSend (they arrive in `~/Descargas`), then press `<leader>ip`
   (or `<A-p>` in insert mode). **Every** photo that arrived in the last 15 min is compressed
-  locally (~1.8 MB → ~300 KB), moved to the vault, and inserted in arrival order as
+  locally (~1.8 MB → ~300 KB), saved in `Zettelkasten/images/`, and inserted in arrival order as
   `![[… |center|300]]`. The originals are deleted, so nothing is imported twice.
 - `4<leader>ip` = width 400.
 - No time for a photo? Use `<leader>if` / `<A-f>` for a `> [!figure] TODO:` placeholder.
   After class, `:LectureTodos` lists them.
-- `:CompressImages` shrinks the jpg files over 500 KB that are already in the vault (in place).
+- `:CompressImages` shrinks the jpg files over 500 KB already in the vault root and `images/` (in place).
 
 ## Best practices for typing fast
 - Write the thing first, decide the decoration after: `x` → `xbar`, `(a+b)` → `(a+b)//`.

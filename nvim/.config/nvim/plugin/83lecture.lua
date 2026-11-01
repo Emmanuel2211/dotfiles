@@ -3,6 +3,8 @@
 -- ============================================================================
 
 local VAULT = vim.g.lecture_vault or vim.fn.expand("~/Documentos/Zettelkasten")
+-- las fotos van a <vault>/images; Obsidian resuelve ![[nombre.jpg]] en cualquier carpeta
+local IMAGES_DIR = VAULT .. "/images"
 local PHOTO_DIR = vim.g.lecture_photo_dir or vim.fn.expand("~/Descargas")
 local PHOTO_MAX_AGE = 15 * 60 -- segundos
 local DEFAULT_WIDTH = 300
@@ -245,12 +247,13 @@ local function paste_photo(width)
 	insert_lines_below(lines, true)
 
 	-- se comprimen en segundo plano; Obsidian las muestra en cuanto aparece cada archivo
+	vim.fn.mkdir(IMAGES_DIR, "p")
 	for _, photo in ipairs(photos) do
-		compress(photo.path, VAULT .. "/" .. photo.name, function(ok, err)
+		compress(photo.path, IMAGES_DIR .. "/" .. photo.name, function(ok, err)
 			in_progress[photo.path] = nil
 			if ok then
 				os.remove(photo.path)
-				local kb = math.floor((vim.uv.fs_stat(VAULT .. "/" .. photo.name) or { size = 0 }).size / 1024)
+				local kb = math.floor((vim.uv.fs_stat(IMAGES_DIR .. "/" .. photo.name) or { size = 0 }).size / 1024)
 				vim.notify(string.format("Foto guardada: %s (%d KB)", photo.name, kb))
 			else
 				vim.notify("Error comprimiendo " .. photo.path .. ":\n" .. (err or ""), vim.log.levels.ERROR)
@@ -283,11 +286,19 @@ end, { desc = "Listar figuras pendientes en el vault" })
 -- Comprime en el lugar las jpg grandes (>500 KB) que ya estan en el vault
 vim.api.nvim_create_user_command("CompressImages", function()
 	local pending, saved = 0, 0
-	for name, type in vim.fs.dir(VAULT) do
-		local ext = (name:match("%.(%w+)$") or ""):lower()
-		local path = VAULT .. "/" .. name
+	local files = {}
+	for _, dir in ipairs({ VAULT, IMAGES_DIR }) do
+		if vim.uv.fs_stat(dir) then
+			for name, type in vim.fs.dir(dir) do
+				table.insert(files, { path = dir .. "/" .. name, name = name, type = type })
+			end
+		end
+	end
+	for _, file in ipairs(files) do
+		local ext = (file.name:match("%.(%w+)$") or ""):lower()
+		local path = file.path
 		local stat = vim.uv.fs_stat(path)
-		if type == "file" and (ext == "jpg" or ext == "jpeg") and stat and stat.size > 500 * 1024 then
+		if file.type == "file" and (ext == "jpg" or ext == "jpeg") and stat and stat.size > 500 * 1024 then
 			pending = pending + 1
 			local tmp = path .. ".tmp.jpg"
 			compress(path, tmp, function(ok)
@@ -308,4 +319,4 @@ vim.api.nvim_create_user_command("CompressImages", function()
 	if pending == 0 then
 		vim.notify("CompressImages: no hay jpg de mas de 500 KB")
 	end
-end, { desc = "Comprimir jpg grandes del vault" })
+end, { desc = "Comprimir jpg grandes del vault y de images/" })

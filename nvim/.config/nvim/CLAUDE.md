@@ -1,7 +1,7 @@
 # Neovim config (Emmanuel)
 
 Personal Neovim 0.12 config, mainly for **live math lecture notes** in Obsidian Markdown
-(vault: `~/Documentos/Zettelkasten`, attachments in the vault root, images as
+(vault: `~/Documentos/Zettelkasten`, imported photos go to `<vault>/images/`, images as
 `![[name|center|300]]`) plus LaTeX via vimtex. It lives in `~/.dotfiles` (stow) and is
 symlinked to `~/.config/nvim`. Code comments are in Spanish; keep that style.
 User manual: `LECTURE.md`.
