@@ -4,6 +4,12 @@ local s, t, i, f, d, c, sn, l, rep = loc.s, loc.t, loc.i, loc.f, loc.d, loc.c, l
 local postfix = loc.postfix
 local fmta = loc.fmta
 local in_math = loc.in_math
+local wrap_postfix = loc.wrap_postfix
+
+-- Contenido de un snippet: el texto seleccionado (visual + <Tab>) o un insert node vacio
+local function vis(idx)
+	return d(idx, loc.visualSelectionOrInsert)
+end
 --
 --
 -- Función auxiliar para detectar si estamos en un callout
@@ -197,7 +203,7 @@ return {
 	-- ++ mathbb
 	s(
 		{ trig = "mbb", snippetType = "autosnippet", desc = "mathbb", wordTrig = false },
-		{ t("\\mathbb{"), i(1), t("}"), i(2) },
+		{ t("\\mathbb{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -234,7 +240,7 @@ return {
 	-- ++ mathcal
 	s(
 		{ trig = "mcal", snippetType = "autosnippet", desc = "mathbb", wordTrig = false },
-		{ t("\\mathcal{"), i(1), t("}"), i(2) },
+		{ t("\\mathcal{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -257,7 +263,7 @@ return {
 	-- ++ mathcal
 	s(
 		{ trig = "mcal", snippetType = "autosnippet", desc = "mathbb", wordTrig = false },
-		{ t("\\mathcal{"), i(1), t("}"), i(2) },
+		{ t("\\mathcal{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	-- ++ mathfrak
@@ -497,26 +503,22 @@ return {
 	-- ),
 	s(
 		{ trig = "sq", snippetType = "autosnippet", desc = "Raiz Cuadrada", wordTrig = false },
-		{ t("\\sqrt{"), i(1, "x"), t("}"), i(2) },
+		{ t("\\sqrt{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "//", snippetType = "autosnippet", desc = "Fraction", wordTrig = true },
-		fmta("\\frac{<>}{<>}", { i(1), i(2) }),
+		fmta("\\frac{<>}{<>}", { vis(1), i(2) }),
 		{ condition = in_math }
 	),
-	postfix({
+	-- Postfix: \alpha// -> \frac{\alpha}{|},  (a+b)// -> \frac{a+b}{|}
+	wrap_postfix({
 		trig = "//",
-		snippetType = "autosnippet",
-		desc = "Also fraction, but introduces the previous written characters in the first {} of \\frac",
-		wordTrig = false,
-	}, {
-		f(function(_, parent)
-			return "\\frac{" .. parent.snippet.env.POSTFIX_MATCH .. "}{"
-		end, {}),
-		i(1),
-		t("}"),
-	}, { condition = in_math }),
+		desc = "fraccion con la expresion anterior como numerador",
+		wrap = function(e)
+			return { t("\\frac{" .. e .. "}{"), i(1), t("}") }
+		end,
+	}),
 	s(
 		{ trig = "oplus", snippetType = "autosnippet", desc = "suma directa", wordTrig = false },
 		{ t("\\oplus ") },
@@ -972,77 +974,99 @@ return {
 		{ condition = in_math }
 	),
 
-	-- == Acentos ==
-	postfix({
-		trig = "hat",
-		match_pattern = [[[\\%w%.%_%-%"%']+$]],
-		snippetType = "autosnippet",
-		desc = "postfix hat when in math mode",
-	}, { l("\\hat{" .. l.POSTFIX_MATCH .. "}") }, { condition = in_math }),
+	-- == Acentos (postfix: xhat, \alphavec, (A\cup B)bar) ==
+	wrap_postfix({ trig = "hat", wrap = function(e) return { t("\\hat{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "vec", wrap = function(e) return { t("\\vec{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "bar", wrap = function(e) return { t("\\bar{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "dott", wrap = function(e) return { t("\\dot{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "tld", wrap = function(e) return { t("\\tilde{" .. e .. "}") } end }),
 
-	postfix({
-		trig = "vec",
-		match_pattern = [[[\\%w%.%_%-%"%']+$]],
-		snippetType = "autosnippet",
-		desc = "postfix vec when in math mode",
-	}, { l("\\vec{" .. l.POSTFIX_MATCH .. "}") }, { condition = in_math }),
-
-	postfix({
-		trig = "bar",
-		match_pattern = [[[\\%w%.%_%-%"%']+$]],
-		snippetType = "autosnippet",
-		desc = "postfix bar when in math mode",
-	}, { l("\\bar{" .. l.POSTFIX_MATCH .. "}") }, { condition = in_math }),
-
-	postfix({
-		trig = "dott",
-		match_pattern = [[[\\%w%.%_%-%"%']+$]],
-		snippetType = "autosnippet",
-		desc = "postfix dot when in math mode",
-	}, { l("\\dot{" .. l.POSTFIX_MATCH .. "}") }, { condition = in_math }),
+	-- == Envolver la expresion anterior (postfix). Pegado = envolver, con espacio = snippet normal ==
+	wrap_postfix({ trig = "sq", wrap = function(e) return { t("\\sqrt{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "mbb", wrap = function(e) return { t("\\mathbb{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "mcal", wrap = function(e) return { t("\\mathcal{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "oline", wrap = function(e) return { t("\\overline{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "uline", wrap = function(e) return { t("\\underline{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "box", wrap = function(e) return { t("\\boxed{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "floor", wrap = function(e) return { t("\\lfloor " .. e .. " \\rfloor") } end }),
+	wrap_postfix({ trig = "nom", exclude = { "binom" }, wrap = function(e) return { t("\\left\\| " .. e .. " \\right\\|") } end }),
+	wrap_postfix({
+		trig = "binom",
+		wrap = function(e)
+			return { t("\\binom{" .. e .. "}{"), i(1), t("}") }
+		end,
+	}),
+	-- la expresion es la base; el cursor va a lo de abajo/arriba: \limund -> \underset{|}{\lim}
+	wrap_postfix({
+		trig = "und",
+		wrap = function(e)
+			return { t("\\underset{"), i(1), t("}{" .. e .. "}") }
+		end,
+	}),
+	wrap_postfix({
+		trig = "over",
+		wrap = function(e)
+			return { t("\\overset{"), i(1), t("}{" .. e .. "}") }
+		end,
+	}),
+	-- (a-b)lr -> \left(a-b\right)   (tambien [] \{\} y ||)
+	wrap_postfix({
+		trig = "lr",
+		group = true,
+		strip = false,
+		wrap = function(e)
+			local open, inner, close
+			if e:sub(1, 2) == "\\{" then
+				open, inner, close = "\\{", e:sub(3, -3), "\\}"
+			else
+				open, inner, close = e:sub(1, 1), e:sub(2, -2), e:sub(-1)
+			end
+			return { t("\\left" .. open .. " " .. inner .. " \\right" .. close) }
+		end,
+	}),
 
 	-- == Parentesis Dinamicos ==
 	s(
 		{ trig = "lr()", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left( <> \right)<>]], { i(1), i(2) }),
+		fmta([[\left( <> \right)<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 
 	-- Corchetes dinámicos: lr[ -> \left[ ... \right]
 	s(
 		{ trig = "lr[]", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left[ <> \right]<>]], { i(1), i(2) }),
+		fmta([[\left[ <> \right]<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 
 	-- Llaves dinámicas: lr{ -> \left\{ ... \right\}
 	s(
 		{ trig = "lr{}", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left\{ <> \right\}<>]], { i(1), i(2) }),
+		fmta([[\left\{ <> \right\}<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 
 	-- Valor absoluto dinámico: lr| -> \left| ... \right|
 	s(
 		{ trig = "lr|", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left| <> \right|<>]], { i(1), i(2) }),
+		fmta([[\left| <> \right|<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "nom", priority = 3000, snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left\| <> \right\|<>]], { i(1), i(2) }),
+		fmta([[\left\| <> \right\|<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 	-- funcion suelo
 	s(
 		{ trig = "floor", priority = 2000, snippetType = "autosnippet", wordTrig = false },
-		fmta([[\lfloor <> \rfloor<>]], { i(1), i(2) }),
+		fmta([[\lfloor <> \rfloor<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 	-- Angulares (producto interno, física): lra -> \left\langle ... \right\rangle
 	s(
 		{ trig = "lra", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left\langle <> \right\rangle<>]], { i(1), i(2) }),
+		fmta([[\left\langle <> \right\rangle<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 	-- Para la barra de restricción de una funcíon, muy usada en Analisis y Calculo
@@ -1053,7 +1077,7 @@ return {
 	),
 	-- Combinaciones
 	s(
-		{ trig = "binom", priority = 2000, snippetType = "autosnippet", wordTrig = false },
+		{ trig = "binom", priority = 4000, snippetType = "autosnippet", wordTrig = false },
 		fmta([[\binom{<>}{<>}<>]], { i(1, "n"), i(2, "k"), i(3) }),
 		{ condition = in_math }
 	),
@@ -1061,17 +1085,17 @@ return {
 	-- == Herramientas Latex y formatting ==
 	s(
 		{ trig = '""', snippetType = "autosnippet", desc = "text", wordTrig = false },
-		{ t("\\text{  "), i(1), t("}"), i(2) },
+		{ t("\\text{ "), vis(1), t(" }"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "over", snippetType = "autosnippet", desc = "something over", wordTrig = false },
-		{ t("\\overset{"), i(1), t("}{"), i(2), t("}"), i(3) },
+		{ t("\\overset{"), i(1), t("}{"), vis(2), t("}"), i(3) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "und", snippetType = "autosnippet", desc = "something under", wordTrig = false },
-		{ t("\\underset{"), i(1), t("}{"), i(2), t("}"), i(3) },
+		{ t("\\underset{"), i(1), t("}{"), vis(2), t("}"), i(3) },
 		{ condition = in_math }
 	),
 	s(
@@ -1086,17 +1110,17 @@ return {
 	),
 	s(
 		{ trig = "uline", snippetType = "autosnippet", desc = "under line", wordTrig = false },
-		{ t("\\underline{"), i(1), t("}"), i(2) },
+		{ t("\\underline{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "oline", snippetType = "autosnippet", desc = "over line", wordTrig = false },
-		{ t("\\overline{"), i(1), t("}"), i(2) },
+		{ t("\\overline{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "box", snippetType = "autosnippet", desc = "caja o marco", wordTrig = false },
-		{ t("\\boxed{"), i(1), t("}"), i(2) },
+		{ t("\\boxed{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(

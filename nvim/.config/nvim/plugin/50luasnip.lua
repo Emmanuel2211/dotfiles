@@ -45,20 +45,20 @@ local types = require("luasnip.util.types")
 ls.setup({
 	update_events = { "TextChanged", "TextChangedI" },
 	enable_autosnippets = true,
+	-- visual: selecciona, <Tab>, escribe el trigger (sq, lr(), mbb, //...) y la seleccion queda dentro
 	store_selection_keys = "<Tab>",
+	-- al salir del snippet (<Esc> + moverte, o volver a insertar en otro lado) se olvida:
+	-- <Tab> ya no salta de vuelta a snippets viejos
+	region_check_events = { "CursorMoved", "CursorHold", "InsertEnter" },
+	delete_check_events = { "TextChanged", "InsertLeave" },
+	-- snippets dentro de snippets: termina el de adentro y luego sigue con el de afuera
+	exit_roots = true,
+	keep_roots = false,
+	link_roots = false,
+	link_children = false,
 })
 
-vim.keymap.set({ "i" }, "<C-k>", function() -- Does nothing!!!! ???
-	ls.expand()
-end, { silent = true, desc = "expand autocomplete" })
-
--- vim.keymap.set({ "i", "s" }, "<Tab>", function()
--- 	ls.jump(1)
--- end, { silent = true, desc = "next autocomplete" })
-
-vim.keymap.set({ "i", "s" }, "<S-Tab>", function() -- the fuck what is this for?
-	ls.jump(-1)
-end, { silent = true, desc = "previous autocomplete" })
+-- <Tab> / <S-Tab> los maneja blink.cmp (plugin/09autocompletion.lua)
 
 -- Keymaps for LuaSnip chioce nodes snippets
 vim.keymap.set({ "i", "s", "n" }, "<C-e>", function()
