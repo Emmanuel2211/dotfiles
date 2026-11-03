@@ -21,7 +21,11 @@ With a **space** before it, you get the normal empty snippet.
 - **Parentheses are for grouping:** they're dropped (`(a+b)//`), except with `lr`,
   which turns them into `\left( \right)`.
 - **Already typed something long?** Select it (`vi(` = inside only, `va(` = with the
-  parentheses), press `<Tab>`, then type the trigger (`sq`, `lr(`, `mbb`, `//`, `""`...).
+  parentheses), press `<Tab>`, then type the trigger. The selection goes into the snippet's
+  "content" field: `sq`, `lr(`, `//`, `mbb`, `ubrace`/`obrace`, `oline`, `set`, `sin`/`cos`/...,
+  `log`/`ln`/`exp`, `min`/`max`/`sup`/`inf`, the body of `sum`/`prod`, the function of
+  `dint`/`int`/`lim`, ... Also works in normal text: select words, `<Tab>`, `mk` → `$words$`.
+  Tab skips the field that already holds the selection.
 - To get an empty `\left( \right)`, just type `lr(`. mini.pairs closes it.
 
 ## 2. Tab = "get me out of here", one level per press

@@ -23,7 +23,9 @@ User manual: `LECTURE.md`.
     `resolveExpandParams`. They return nil (so the normal prefix snippet runs) when nothing
     is glued or there's a stored visual selection (`b:LUASNIP_SELECT_RAW`).
     Postfix triggers must not appear inside another trigger (use `exclude`, e.g. nom/binom).
-  - `visualSelectionOrInsert`: used as `vis(n)` in `tex/math.lua` wrappers.
+  - `visualSelectionOrInsert`: used as `vis(n, default)` in `tex/math.lua` for the "content"
+    field of ~60 snippets (the selection, or an insert node with `default` text). New snippets
+    that wrap content should use `vis(n)` for that field instead of `i(n)`.
 - `plugin/09autocompletion.lua`: a single `<Tab>` handler (`smart_tab`) in blink.cmp.
   blink runs keymap functions inside an `<expr>` mapping, so cursor moves and jumps
   **must** go through `vim.schedule`. `"snippet_forward"` stays in the list so blink also

@@ -346,13 +346,13 @@ end
 -- end
 
 -- test whether the parent snippet has content from a visual selection.
-M.visualSelectionOrInsert = function(args, parent)
+-- (default: texto por defecto del campo cuando no hay seleccion, ej. "x" en \sqrt{x})
+M.visualSelectionOrInsert = function(args, parent, _, default)
+	local ls = require("luasnip")
 	if #parent.snippet.env.LS_SELECT_RAW > 0 then
-		local ls = require("luasnip")
 		return ls.snippet_node(nil, ls.text_node(parent.snippet.env.LS_SELECT_RAW))
 	else
-		local ls = require("luasnip")
-		return ls.snippet_node(nil, ls.insert_node(1))
+		return ls.snippet_node(nil, ls.insert_node(1, default))
 	end
 end
 

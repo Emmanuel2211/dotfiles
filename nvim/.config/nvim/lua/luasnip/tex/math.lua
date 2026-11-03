@@ -7,8 +7,8 @@ local in_math = loc.in_math
 local wrap_postfix = loc.wrap_postfix
 
 -- Contenido de un snippet: el texto seleccionado (visual + <Tab>) o un insert node vacio
-local function vis(idx)
-	return d(idx, loc.visualSelectionOrInsert)
+local function vis(idx, default)
+	return d(idx, loc.visualSelectionOrInsert, {}, { user_args = { default } })
 end
 --
 --
@@ -34,7 +34,7 @@ return {
 	-- == Math mode ==
 	s(
 		{ trig = "mk", snippetType = "autosnippet", desc = "inline math mode", wordTrig = true },
-		fmta("$<>$", { i(1, "Mates") })
+		fmta("$<>$", { vis(1, "Mates") })
 	),
 	-- display math dinamico! detecta ">" de callouts
 	s(
@@ -257,7 +257,7 @@ return {
 	-- ++ mathscr
 	s(
 		{ trig = "mscr", snippetType = "autosnippet", desc = "mathbb", wordTrig = false },
-		{ t("\\mathscr{"), i(1), t("}"), i(2) },
+		{ t("\\mathscr{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	-- ++ mathcal
@@ -269,13 +269,13 @@ return {
 	-- ++ mathfrak
 	s(
 		{ trig = "mfrak", snippetType = "autosnippet", desc = "mathbb", wordTrig = false },
-		{ t("\\mathfrak{"), i(1), t("}"), i(2) },
+		{ t("\\mathfrak{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	-- ++ mathrm
 	s(
 		{ trig = "mrm", snippetType = "autosnippet", desc = "mathbb", wordTrig = false },
-		{ t("\\mathrm{"), i(1), t("}"), i(2) },
+		{ t("\\mathrm{"), vis(1), t("}"), i(2) },
 		{ condition = in_math }
 	),
 
@@ -412,7 +412,7 @@ return {
 		snippetType = "autosnippet",
 		priority = 3000,
 		wordTrig = false,
-	}, fmta([[\bigcap_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
+	}, fmta([[\bigcap_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), vis(4) }), { condition = in_math }),
 	s(
 		{ trig = "cup", snippetType = "autosnippet", desc = "Set union", wordTrig = false },
 		{ t("\\cup ") },
@@ -420,7 +420,7 @@ return {
 	),
 	s(
 		{ trig = "bcup", snippetType = "autosnippet", priority = 2000, desc = "Set union", wordTrig = false },
-		{ t("\\bigcup "), i(1, "A") },
+		{ t("\\bigcup "), vis(1, "A") },
 		{ condition = in_math }
 	),
 	s({
@@ -428,7 +428,7 @@ return {
 		snippetType = "autosnippet",
 		priority = 3000,
 		wordTrig = false,
-	}, fmta([[\bigcup_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
+	}, fmta([[\bigcup_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), vis(4) }), { condition = in_math }),
 	s(
 		{ trig = "smi", snippetType = "autosnippet", desc = "Set difference", wordTrig = false },
 		{ t("\\setminus ") },
@@ -476,7 +476,7 @@ return {
 	),
 	s(
 		{ trig = "set", snippetType = "autosnippet", desc = "Set braces", wordTrig = false },
-		{ t("\\{ "), i(1), t(" \\}") },
+		{ t("\\{ "), vis(1), t(" \\}") },
 		{ condition = in_math }
 	),
 	s(
@@ -488,7 +488,7 @@ return {
 	-- == Operaciones Basicas ==
 	s(
 		{ trig = "rd", snippetType = "autosnippet", desc = "Squared", wordTrig = false },
-		{ t("^{"), i(1, "n"), t("}"), i(2) },
+		{ t("^{"), vis(1, "n"), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -503,7 +503,7 @@ return {
 	-- ),
 	s(
 		{ trig = "sq", snippetType = "autosnippet", desc = "Raiz Cuadrada", wordTrig = false },
-		{ t("\\sqrt{"), vis(1), t("}"), i(2) },
+		{ t("\\sqrt{"), vis(1, "x"), t("}"), i(2) },
 		{ condition = in_math }
 	),
 	s(
@@ -546,22 +546,22 @@ return {
 	),
 	s(
 		{ trig = "sop", snippetType = "autosnippet", desc = "Probabilidad Independiente", wordTrig = false },
-		{ t("\\operatorname{supp}("), i(1, "X"), t(")"), i(2) },
+		{ t("\\operatorname{supp}("), vis(1, "X"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s({
 		trig = "sum",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, fmta([[\sum_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
+	}, fmta([[\sum_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), vis(4) }), { condition = in_math }),
 	s({
 		trig = "prod",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, fmta([[\prod_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(4) }), { condition = in_math }),
+	}, fmta([[\prod_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), vis(4) }), { condition = in_math }),
 	s(
 		{ trig = "_", snippetType = "autosnippet", desc = "Arbitrary Index", wordTrig = false },
-		fmta("_{<>}", { i(1, "i") }),
+		fmta("_{<>}", { vis(1, "i") }),
 		{ condition = in_math }
 	),
 	s(
@@ -711,17 +711,17 @@ return {
 	-- Span < >
 	s(
 		{ trig = "span", snippetType = "autosnippet", desc = "Generado", wordTrig = false },
-		fmta([[\langle <> \rangle<>]], { i(1), i(2) }),
+		fmta([[\langle <> \rangle<>]], { vis(1), i(2) }),
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "dim", snippetType = "autosnippet", desc = "Dimension", wordTrig = false },
-		fmta([[\operatorname{dim}(<>)<>]], { i(1, "V"), i(2) }),
+		fmta([[\operatorname{dim}(<>)<>]], { vis(1, "V"), i(2) }),
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "gra", snippetType = "autosnippet", desc = "grado polinomio", wordTrig = false },
-		fmta([[\operatorname{gr}(<>)<>]], { i(1, "p"), i(2) }),
+		fmta([[\operatorname{gr}(<>)<>]], { vis(1, "p"), i(2) }),
 		{ condition = in_math }
 	),
 
@@ -741,61 +741,61 @@ return {
 		trig = "ope",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\operatorname{"), i(1), t("} "), i(2) }, { condition = in_math }),
+	}, { t("\\operatorname{"), vis(1), t("} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "dom",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\operatorname{Dom} \\{"), i(1), t("\\}"), i(2) }, { condition = in_math }),
+	}, { t("\\operatorname{Dom} \\{"), vis(1), t("\\}"), i(2) }, { condition = in_math }),
 	s({
 		trig = "img",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\operatorname{Im} \\{"), i(1), t("\\}"), i(2) }, { condition = in_math }),
+	}, { t("\\operatorname{Im} \\{"), vis(1), t("\\}"), i(2) }, { condition = in_math }),
 	s({
 		trig = "min",
 		snippetType = "autosnippet",
 		wordTrig = false,
 		desc = "minimo",
-	}, { t("\\min \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\min \\left\\{"), vis(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "max",
 		snippetType = "autosnippet",
 		wordTrig = false,
 		desc = "maximo",
-	}, { t("\\max \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\max \\left\\{"), vis(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "sup",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\sup \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\sup \\left\\{"), vis(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "inf",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\inf \\left\\{"), i(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
+	}, { t("\\inf \\left\\{"), vis(1, "f"), t("\\right\\} "), i(2) }, { condition = in_math }),
 	s({
 		trig = "log",
 		snippetType = "autosnippet",
 		wordTrig = false,
 		desc = "logaritmo",
-	}, { t("\\log \\left("), i(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
+	}, { t("\\log \\left("), vis(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
 	s({
 		trig = "ln",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\ln \\left("), i(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
+	}, { t("\\ln \\left("), vis(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
 	s({
 		trig = "exp",
 		snippetType = "autosnippet",
 		wordTrig = false,
-	}, { t("\\exp \\left("), i(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
+	}, { t("\\exp \\left("), vis(1, "x"), t("\\right)"), i(2) }, { condition = in_math }),
 	s({
 		trig = "lim",
 		snippetType = "autosnippet",
 		desc = "Limite",
 		wordTrig = false,
-	}, fmta([[\lim_{<> \to <>} <>]], { i(1, "n"), i(2, "\\infty"), i(3, "f(x)") }), { condition = in_math }),
+	}, fmta([[\lim_{<> \to <>} <>]], { i(1, "n"), i(2, "\\infty"), vis(3, "f(x)") }), { condition = in_math }),
 	s({
 		trig = "alim",
 		snippetType = "autosnippet",
@@ -811,7 +811,7 @@ return {
 			desc = "Integrals",
 			wordTrig = false,
 		},
-		fmta([[\int_{<>}^{<>} <> \, d<><>]], { i(1, "a"), i(2, "b"), i(3, "f(x)"), i(4, "x"), i(5) }),
+		fmta([[\int_{<>}^{<>} <> \, d<><>]], { i(1, "a"), i(2, "b"), vis(3, "f(x)"), i(4, "x"), i(5) }),
 		{ condition = in_math }
 	),
 	s({
@@ -819,7 +819,7 @@ return {
 		snippetType = "autosnippet",
 		desc = "Integrals",
 		wordTrig = false,
-	}, fmta([[\int <> \, d<><>]], { i(1, "f(x)"), i(2, "x"), i(3) }), { condition = in_math }),
+	}, fmta([[\int <> \, d<><>]], { vis(1, "f(x)"), i(2, "x"), i(3) }), { condition = in_math }),
 	s({
 		trig = "eint",
 		snippetType = "autosnippet",
@@ -838,22 +838,22 @@ return {
 	-- == Trigonometricas
 	s(
 		{ trig = "sin", snippetType = "autosnippet", desc = "seno", wordTrig = false },
-		{ t("\\sin("), i(1, "x"), t(")"), i(2) },
+		{ t("\\sin("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "isin", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
-		{ t("\\sin^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\sin^{-1}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "arcsin", snippetType = "autosnippet", priority = 2000, desc = "arcoseno", wordTrig = false },
-		{ t("\\arcsin("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\arcsin("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "hsin", snippetType = "autosnippet", priority = 2000, desc = "seno", wordTrig = false },
-		{ t("\\sinh("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\sinh("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s({
@@ -862,115 +862,115 @@ return {
 		priority = 3000,
 		desc = "sino hiperbolico inverso",
 		wordTrig = false,
-	}, { t("\\sinh^{-1}("), i(1, "\\theta"), t(")"), i(2) }, { condition = in_math }),
+	}, { t("\\sinh^{-1}("), vis(1, "\\theta"), t(")"), i(2) }, { condition = in_math }),
 	s(
 		{ trig = "cos", snippetType = "autosnippet", desc = "coseno", wordTrig = false },
-		{ t("\\cos("), i(1, "x"), t(")"), i(2) },
+		{ t("\\cos("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "icos", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
-		{ t("\\cos^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\cos^{-1}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "arccos", snippetType = "autosnippet", priority = 2000, desc = "arcocoseno", wordTrig = false },
-		{ t("\\arccos("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\arccos("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "hcos", snippetType = "autosnippet", priority = 2000, desc = "coseno", wordTrig = false },
-		{ t("\\cosh("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\cosh("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "ihcos", snippetType = "autosnippet", priority = 3000, desc = "coseno", wordTrig = false },
-		{ t("\\cosh^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\cosh^{-1}("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "tan", snippetType = "autosnippet", desc = "tangente", wordTrig = false },
-		{ t("\\tan("), i(1, "x"), t(")"), i(2) },
+		{ t("\\tan("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "itan", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
-		{ t("\\tan^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\tan^{-1}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "arctan", snippetType = "autosnippet", priority = 2000, desc = "arcotangente", wordTrig = false },
-		{ t("\\arctan("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\arctan("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "htan", snippetType = "autosnippet", priority = 2000, desc = "tangente", wordTrig = false },
-		{ t("\\tanh("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\tanh("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "ihtan", snippetType = "autosnippet", priority = 3000, desc = "tangente", wordTrig = false },
-		{ t("\\tanh^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\tanh^{-1}("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "csc", snippetType = "autosnippet", desc = "cosecante", wordTrig = false },
-		{ t("\\csc("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\csc("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "icsc", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
-		{ t("\\csc^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\csc^{-1}("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "hcsc", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
-		{ t("\\operatorname{csch}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\operatorname{csch}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "ihcsc", snippetType = "autosnippet", priority = 3000, desc = "secante", wordTrig = false },
-		{ t("\\operatorname{csch}^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\operatorname{csch}^{-1}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "sec", snippetType = "autosnippet", desc = "secante", wordTrig = false },
-		{ t("\\sec("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\sec("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "isec", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
-		{ t("\\sec^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\sec^{-1}("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "hsec", snippetType = "autosnippet", priority = 2000, desc = "secante", wordTrig = false },
-		{ t("\\operatorname{sech}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\operatorname{sech}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "ihsec", snippetType = "autosnippet", priority = 3000, desc = "secante", wordTrig = false },
-		{ t("\\operatorname{sech}^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\operatorname{sech}^{-1}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "cot", snippetType = "autosnippet", desc = "cotangente", wordTrig = false },
-		{ t("\\cot("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\cot("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "icot", snippetType = "autosnippet", priority = 2000, desc = "cotangente", wordTrig = false },
-		{ t("\\cot^{-1}("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\cot^{-1}("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "hcot", snippetType = "autosnippet", priority = 2000, desc = "cotangente", wordTrig = false },
-		{ t("\\coth("), i(1, "\\theta"), t(")"), i(2) },
+		{ t("\\coth("), vis(1, "\\theta"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "ihcot", snippetType = "autosnippet", priority = 3000, desc = "secante", wordTrig = false },
-		{ t("\\coth^{-1}("), i(1, "x"), t(")"), i(2) },
+		{ t("\\coth^{-1}("), vis(1, "x"), t(")"), i(2) },
 		{ condition = in_math }
 	),
 
@@ -993,7 +993,7 @@ return {
 	wrap_postfix({
 		trig = "binom",
 		wrap = function(e)
-			return { t("\\binom{" .. e .. "}{"), i(1), t("}") }
+			return { t("\\binom{" .. e .. "}{"), vis(1), t("}") }
 		end,
 	}),
 	-- la expresion es la base; el cursor va a lo de abajo/arriba: \limund -> \underset{|}{\lim}
@@ -1072,13 +1072,13 @@ return {
 	-- Para la barra de restricción de una funcíon, muy usada en Analisis y Calculo
 	s(
 		{ trig = "lre", snippetType = "autosnippet", wordTrig = false },
-		fmta([[\left. <> \right|_{<>}<>]], { i(1), i(2), i(3) }),
+		fmta([[\left. <> \right|_{<>}<>]], { vis(1), i(2), i(3) }),
 		{ condition = in_math }
 	),
 	-- Combinaciones
 	s(
 		{ trig = "binom", priority = 4000, snippetType = "autosnippet", wordTrig = false },
-		fmta([[\binom{<>}{<>}<>]], { i(1, "n"), i(2, "k"), i(3) }),
+		fmta([[\binom{<>}{<>}<>]], { vis(1, "n"), i(2, "k"), i(3) }),
 		{ condition = in_math }
 	),
 
@@ -1100,12 +1100,12 @@ return {
 	),
 	s(
 		{ trig = "ubrace", snippetType = "autosnippet", desc = "under braces", wordTrig = false },
-		{ t("\\underbrace{"), i(1), t("}_{"), i(2, "n\\text{-veces}"), t("}"), i(3) },
+		{ t("\\underbrace{"), vis(1), t("}_{"), i(2, "n\\text{-veces}"), t("}"), i(3) },
 		{ condition = in_math }
 	),
 	s(
 		{ trig = "obrace", snippetType = "autosnippet", desc = "over braces", wordTrig = false },
-		{ t("\\overbrace{"), i(1), t("}_{"), i(2, "n\\text{-veces}"), t("}"), i(3) },
+		{ t("\\overbrace{"), vis(1), t("}_{"), i(2, "n\\text{-veces}"), t("}"), i(3) },
 		{ condition = in_math }
 	),
 	s(
