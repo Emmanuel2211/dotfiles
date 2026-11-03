@@ -54,7 +54,13 @@ return {
 					return get_callout_prefix()
 				end), -- Inyecta el '>' en la última línea
 			}
-		)
+		),
+		-- solo fuera de matematicas: dentro, "dm" es parte de cosas como dmrm -> \mathrm{d}
+		{
+			condition = function()
+				return not in_math()
+			end,
+		}
 	),
 
 	-- == Letras Griegas ==
@@ -985,6 +991,9 @@ return {
 	wrap_postfix({ trig = "sq", wrap = function(e) return { t("\\sqrt{" .. e .. "}") } end }),
 	wrap_postfix({ trig = "mbb", wrap = function(e) return { t("\\mathbb{" .. e .. "}") } end }),
 	wrap_postfix({ trig = "mcal", wrap = function(e) return { t("\\mathcal{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "mscr", wrap = function(e) return { t("\\mathscr{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "mfrak", wrap = function(e) return { t("\\mathfrak{" .. e .. "}") } end }),
+	wrap_postfix({ trig = "mrm", wrap = function(e) return { t("\\mathrm{" .. e .. "}") } end }),
 	wrap_postfix({ trig = "oline", wrap = function(e) return { t("\\overline{" .. e .. "}") } end }),
 	wrap_postfix({ trig = "uline", wrap = function(e) return { t("\\underline{" .. e .. "}") } end }),
 	wrap_postfix({ trig = "box", wrap = function(e) return { t("\\boxed{" .. e .. "}") } end }),

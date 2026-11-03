@@ -9,7 +9,8 @@ With a **space** before it, you get the normal empty snippet.
 | `xsq` / `(x+1)sq` | `\sqrt{x}` / `\sqrt{x+1}` |
 | `\alpha//` / `(a+b)//` | `\frac{\alpha}{|}` / `\frac{a+b}{|}` |
 | `(a-b)lr` | `\left( a-b \right)` (also `[]`, `\{\}`, `||`) |
-| `Rmbb` / `Fmcal` | `\mathbb{R}` / `\mathcal{F}` |
+| `Rmbb` / `Fmcal` / `Fmscr` | `\mathbb{R}` / `\mathcal{F}` / `\mathscr{F}` |
+| `gmfrak` / `dmrm` | `\mathfrak{g}` / `\mathrm{d}` (straight d for `dx`) |
 | `Aoline` / `Auline` / `xbox` | `\overline{A}` / `\underline{A}` / `\boxed{x}` |
 | `xhat` `xvec` `xbar` `xdott` `xtld` | `\hat{x}` `\vec{x}` `\bar{x}` `\dot{x}` `\tilde{x}` |
 | `Xund` / `=over` | `\underset{|}{X}` / `\overset{|}{=}` |
